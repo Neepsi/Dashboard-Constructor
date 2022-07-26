@@ -27,6 +27,7 @@ const Figures =({oneBlockVisi,twoBlockVisi})=>
                     <div class="badge text-wrap text-dark position-absolute bottom-0 start-50 translate-middle-x" id='divEmptyStateThree'>
                             <p class="fs-5 fw-normal">Aucune donnée n’est disponible dans la période choisie.</p>
                         </div> 
+                        <p>fgfg</p>
                 </div>
                                                      
                 

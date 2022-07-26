@@ -1,10 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react';
-import Test from "./Test";
+import Dashboard from "./Components/Dashboard";
+
 function App() {
   return (
     <div className="App">
-        <Test/>
+        <Dashboard />
     </div>
   );
 }

@@ -1,28 +1,16 @@
 {
-<<<<<<< HEAD
   "name": "dashboard_parametrable",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-=======
-  "name": "react-projet",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
     "@popperjs/core": "^2.11.5",
->>>>>>> 2c5f352b0226467ceaab099479e57e622bfa65f1
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.0",
-<<<<<<< HEAD
-    "react": "^18.2.0",
-    "react-bootstrap": "^2.4.0",
-=======
     "popper.js": "^1.16.1",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.0",
->>>>>>> 2c5f352b0226467ceaab099479e57e622bfa65f1
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"

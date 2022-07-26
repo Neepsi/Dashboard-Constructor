@@ -14,7 +14,7 @@ const Figures =({oneBlockVisi,twoBlockVisi})=>
                             <p class="fs-2 fw-normal" style={{display: 'block'}}>Aucune donnée n’est disponible dans la période choisie.</p>
                         </div>                     
                 </div>
-                <div class="w-100"></div>
+                
                 <div class="col bg-secondary m-2 rounded position-relative bg-light shadow-sm p-3 mb-3 bg-body" style={{display:twoBlockVisi,height:'285px'}}>
                     <img src={empty_state} id="imgEmptyStateTwo" style={{maxWidth:'100%', maxHeight:'70%',display: 'block',marginLeft:'auto',marginRight:'auto'}}/>
                     <div class="badge text-wrap text-dark position-absolute bottom-0 start-50 translate-middle-x" id='divEmptyStateTwo'>
@@ -27,7 +27,7 @@ const Figures =({oneBlockVisi,twoBlockVisi})=>
                     <div class="badge text-wrap text-dark position-absolute bottom-0 start-50 translate-middle-x" id='divEmptyStateThree'>
                             <p class="fs-5 fw-normal">Aucune donnée n’est disponible dans la période choisie.</p>
                         </div> 
-                        <p>fgfg</p>
+                        
                 </div>
                                                      
                 

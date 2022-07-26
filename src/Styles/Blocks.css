@@ -1,0 +1,52 @@
+@media (max-width: 760px)
+{
+    #divEmptyStateOne, #divEmptyStateFour
+    {
+        width: 30rem;
+    }
+}
+
+@media (max-width: 576px)
+{
+    #divEmptyStateOne, #divEmptyStateFour
+    {
+        width: 23rem;
+    }
+}
+@media (min-width:761px)
+{
+    #divEmptyStateOne, #divEmptyStateFour
+    {
+        width: 35rem;
+    }    
+}
+
+#divEmptyStateTwo, #divEmptyStateThree
+{
+    width: 23rem;
+}
+@media (max-width:992px)
+{    
+    #divEmptyStateTwo, #divEmptyStateThree
+    {
+    width: 19rem;
+    }
+} 
+@media (max-width:768px)
+{
+    #divEmptyStateTwo, #divEmptyStateThree
+    {
+    width: 17rem;
+    }
+    #imgEmptyStateTwo, #imgEmptyStateThree
+    {
+        height: 20rem;        
+    }
+}
+@media(max-width:494px)
+{    
+    #divEmptyStateTwo, #divEmptyStateThree
+    {
+    width: 14rem;
+    }
+}

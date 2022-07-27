@@ -1,4 +1,4 @@
-import '../Styles/block.css'
+import '../styles/block.css'
 import empty_state from '../images/empty_state.png'
 import { useState } from 'react'
 

@@ -3,7 +3,7 @@ import Zone from './Zone';
 import Graphe from './Graphe';
 import Donnees from './Donnees';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../Styles/edit.css'
+import '../styles/edit.css'
 
 function Edit() {
   const [graphe, setGraphe] = useState(sampleGraphe)

@@ -1,7 +1,7 @@
 input[type='radio'][name='buttonGroup'] { display:none; }
 input[type='radio'][name='cardGroup'] { display:none; }
 
-label {
+.zoneLabel {
     padding: 6px;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -13,5 +13,18 @@ label {
     text-align: center;
 }
 
+.card-label {
+    width: 100%;
+}
+
+.card-text {
+    color: #869ab8; 
+}
+
+.card-input:hover {
+    cursor: pointer;
+}
+
 input[type='radio'][name='buttonGroup']:checked + label { background-color:#0275d8; color: white}
-input[type='radio'][name='cardGroup']:checked + label { background-color:#0275d8; color: white}
+input[type='radio'][name='cardGroup']:checked + .card-input { box-shadow: 0 0 1px 1px #0275d8; }
+input[type='radio'][name='cardGroup']:checked + .card-input .card-text { color: #0275d8; }

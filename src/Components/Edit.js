@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import Zone from "./Zone";
-import Graphe from "./Graphe";
-import Donnees from "./Donnees";
+import React, { useState } from 'react';
+import Zone from './Zone';
+import Graphe from './Graphe';
+import Donnees from './Donnees';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Styles/edit.css'
 
@@ -9,12 +9,12 @@ function Edit() {
   const [graphe, setGraphe] = useState(sampleGraphe)
 
   return (
-    <div className="d-flex flex-column">
+    <div className='d-flex flex-column'>
       <div>
-        <div className="mb-5">
+        <div className='mb-5'>
           <Zone />
         </div>
-        <div className="mb-5">
+        <div className='mb-5'>
           <Graphe graphe={graphe} />     
         </div> 
         <div>

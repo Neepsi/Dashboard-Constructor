@@ -12,7 +12,7 @@ function Graphe({ graphe }) {
                         <div className="card-body">
                             <p className="card-text text-center text-secondary">{g.name}</p>
                         </div>
-                        <input name="cardGroup" type="radio" />
+                        
                     </div>
                 </div>
             )}          

@@ -46,42 +46,39 @@ function Test() {
             <button id='btntwo' onClick={addTwoBlocks}>Ajouter Figure</button>  
             <button className='btn btn-primary mx-2' onClick={handleShow}>Ajouter bloc</button>
 
-                 
+            <Blocks oneBlockVisi={hiddenBlocks} twoBlockVisi={hiddenBlocks} />  
+                <DragDropContext onDragEnd={handleOnDragEnd}>
+                    <Droppable droppableId='charts'>
+                        {(provided)=>(
+                            <ul className='charts list-unstyled' {...provided.droppableProps} ref={provided.innerRef}>
+                                {inputList.map((list,index) => 
+                                    <Draggable key={list.id} draggableId={list.id.toString()} index={index}>
+                                        {(provided,snapshot)=>(
+                                            <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} >
+                                                {(list.oneBlockVisi) ? <Figures twoBlockVisi={"none"} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} /> : <Figures oneBlockVisi={"none"} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'}/> }                                                                                                      
+                                            </li>
+                                        )}                                        
+                                    </Draggable>
+                                )}
+                                {provided.placeholder}
+                            </ul>
+                        )}
+                    </Droppable>
+                </DragDropContext>
 
-                
-
-                <Blocks oneBlockVisi={hiddenBlocks} twoBlockVisi={hiddenBlocks} />  
-                    <DragDropContext onDragEnd={handleOnDragEnd}>
-                        <Droppable droppableId='charts'>
-                            {(provided)=>(
-                                <ul className='charts list-unstyled' {...provided.droppableProps} ref={provided.innerRef}>
-                                    {inputList.map((list,index) => 
-                                        <Draggable key={list.id} draggableId={list.id.toString()} index={index}>
-                                            {(provided,snapshot)=>(
-                                                <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} >
-                                                    {(list.oneBlockVisi) ? <Figures twoBlockVisi={"none"} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} /> : <Figures oneBlockVisi={"none"} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'}/> }                                                                                                      
-                                                </li>
-                                            )}                                        
-                                        </Draggable>
-                                    )}
-                                    {provided.placeholder}
-                                </ul>
-                            )}
-                        </Droppable>
-                    </DragDropContext> 
-                    <Modal show={show} onHide={handleClose} scrollable={true} centered size="xl">
+                <Modal show={show} onHide={handleClose} scrollable={true} centered size="xl">
                     <Modal.Header closeButton>
-                    <Modal.Title>Parametres du bloc</Modal.Title>
+                        <Modal.Title>Parametres du bloc</Modal.Title>
                     </Modal.Header>                                                       
                     <Modal.Body>
                         <Edit />
                     </Modal.Body>
-                    
+                
                     <Modal.Footer>
                         <Button variant="primary" onClick={handleClose}>Ajouter bloc</Button>
                     </Modal.Footer>
-                </Modal>                                              
-            </div>
+            </Modal>                                              
+        </div>
     )
 }
 

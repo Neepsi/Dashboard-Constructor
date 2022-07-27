@@ -5,14 +5,15 @@ import Header from './Header';
 import Figures from './Figures';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-const Test = () =>
+function Test  () 
 {   
     const [hiddenBlocks, setHiddenBlocks] = useState();
-    const [inputList, setInputList] = useState(tempData);
-    const listId = (inputList.length > 0) ? inputList[inputList.length-1].id : 1
+    const [inputList, setInputList] = useState(tempData); 
+    const listId = (inputList.length > 0) ? inputList.length : 0
 
     function handleOnDragEnd(result)
     {
+        if(!result.destination) return;
         const items = Array.from(inputList);
         const [reorderedItem] = items.splice(result.source.index, 1)
         items.splice(result.destination.index,0,reorderedItem);
@@ -25,6 +26,7 @@ const Test = () =>
         let newArr = inputList.concat(newFig);
         setInputList(newArr);
         setHiddenBlocks("none");
+        
     }
 
     const addTwoBlocks = () =>
@@ -32,8 +34,8 @@ const Test = () =>
         let newFig = {id: listId+1, oneBlockVisi: false, twoBlockVisi: true}
         let newArr = inputList.concat(newFig);
         setInputList(newArr);
-        setHiddenBlocks("none");
-    }
+        setHiddenBlocks("none");        
+    }    
 
     return (            
             <div>
@@ -49,11 +51,11 @@ const Test = () =>
                                 <ul className='charts list-unstyled' {...provided.droppableProps} ref={provided.innerRef}>
                                     {inputList.map((list,index) => 
                                         <Draggable key={list.id} draggableId={list.id.toString()} index={index}>
-                                            {(provided)=>(
-                                                <li key={list.id} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                                                    {(list.oneBlockVisi) ? <Figures twoBlockVisi={"none"} /> : <Figures oneBlockVisi={"none"} /> }
+                                            {(provided,snapshot)=>(
+                                                <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} >
+                                                    {(list.oneBlockVisi) ? <Figures twoBlockVisi={"none"} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} /> : <Figures oneBlockVisi={"none"} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'}/> }                                                                                                      
                                                 </li>
-                                            )}
+                                            )}                                        
                                         </Draggable>
                                     )}
                                     {provided.placeholder}

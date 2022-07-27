@@ -1,9 +1,8 @@
-import '../Styles/Blocks.css'
+import '../Styles/block.css'
 import empty_state from '../images/empty_state.png'
 
 
-const Figures =({oneBlockVisi,twoBlockVisi})=>
-{
+function Figures({ oneBlockVisi, twoBlockVisi }) {
     return(    
         <div className="container">    
             <div className="row">   
@@ -31,4 +30,5 @@ const Figures =({oneBlockVisi,twoBlockVisi})=>
         </div>                    
     )
 }
+
 export default Figures;

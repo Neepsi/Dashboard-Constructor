@@ -6,12 +6,12 @@ function Zone() {
         <h4 className='me-5'>Zone :</h4>
         <div>
             <div>
-                <input name='buttonGroup' id='1bloc' type="radio" defaultChecked />
-                <label htmlFor='1bloc'>1 Bloc</label>
+                <input name='buttonGroup' id='1bloc' type='radio' defaultChecked />
+                <label className='zoneLabel' htmlFor='1bloc'>1 Bloc</label>
             </div>
             <div>
-                <input name='buttonGroup' id='2bloc' type="radio" />
-                <label htmlFor='2bloc'>2 Blocs</label>
+                <input name='buttonGroup' id='2bloc' type='radio' />
+                <label className='zoneLabel' htmlFor='2bloc'>2 Blocs</label>
             </div>
         </div>
     </div>

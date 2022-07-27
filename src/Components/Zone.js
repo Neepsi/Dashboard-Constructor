@@ -3,7 +3,7 @@ import React from 'react'
 function Zone() {
   return (
     <div className='d-flex'> 
-        <h4 className='mx-4'>Zone : </h4>
+        <h4 className='me-5'>Zone :</h4>
         <div>
             <div>
                 <input name='buttonGroup' id='1bloc' type="radio" defaultChecked />

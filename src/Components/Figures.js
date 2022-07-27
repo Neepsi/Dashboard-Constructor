@@ -1,10 +1,8 @@
-import '../Styles/Blocks.css'
+import '../Styles/block.css'
 import empty_state from '../images/empty_state.png'
 import { useState } from 'react'
 
-function Figures({ oneBlockVisi, twoBlockVisi,bgColor }) {
-    
-
+function Figures({ oneBlockVisi, twoBlockVisi,bgColor }) {    
     return(    
         <div className="container">    
             <div className="row">   
@@ -32,4 +30,5 @@ function Figures({ oneBlockVisi, twoBlockVisi,bgColor }) {
         </div>                    
     )
 }
+
 export default Figures;

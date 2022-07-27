@@ -1,9 +1,8 @@
-import '../Styles/Header.css'
+import '../Styles/header.css'
 import bg_image from '../images/illu_bg_one_1.svg'
 import logo from '../images/logo1.png'
 
-const Header = ({ oneBlockVisi, twoBlockVisi }) =>
-{  
+function Header() {  
     return(
         <div>
              <div class="row" id='zol'>

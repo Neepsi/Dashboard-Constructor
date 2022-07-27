@@ -1,7 +1,6 @@
 import empty_state from '../images/empty_state.png'
 
-const Blocks = ({ oneBlockVisi, twoBlockVisi }) =>
-{
+function Blocks({ oneBlockVisi, twoBlockVisi }) {
     return(  
         <div className="d-flex justify-content-center">
             <div className="container " style={{width:'60rem'}}>

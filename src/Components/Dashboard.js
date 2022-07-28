@@ -2,10 +2,10 @@ import '../styles/dashboard.css';
 import { useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Modal, Button } from 'react-bootstrap';
-import Blocks from './Blocks';
+import Blocs from './Blocs';
 import Header from './Header';
 import Figures from './Figures';
-import Edit from './Edit';
+import AddBloc from './AddBloc';
 
 function Test() {   
     const [hiddenBlocks, setHiddenBlocks] = useState();
@@ -42,11 +42,11 @@ function Test() {
         <div>
             <Header />    
 
-            <button class='m-2' id='btnone' onClick={addOneBlock}>Changer Emplacement</button>
+            <button className='m-2' id='btnone' onClick={addOneBlock}>Changer Emplacement</button>
             <button id='btntwo' onClick={addTwoBlocks}>Ajouter Figure</button>  
             <button className='btn btn-primary mx-2' onClick={handleShow}>Ajouter bloc</button>
 
-            <Blocks oneBlockVisi={hiddenBlocks} twoBlockVisi={hiddenBlocks} />  
+            <Blocs oneBlockVisi={hiddenBlocks} twoBlockVisi={hiddenBlocks} />  
                 <DragDropContext onDragEnd={handleOnDragEnd}>
                     <Droppable droppableId='charts'>
                         {(provided)=>(
@@ -71,7 +71,7 @@ function Test() {
                         <Modal.Title>Parametres du bloc</Modal.Title>
                     </Modal.Header>                                                       
                     <Modal.Body>
-                        <Edit />
+                        <AddBloc />
                     </Modal.Body>
                 
                     <Modal.Footer>

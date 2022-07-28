@@ -1,0 +1,16 @@
+{
+	"onglets":[
+		{
+			"nom_onglet":"generalites",
+			"mesures":["Nombre de demandes"],
+			"dimesions": ["Date depôt", "Date traitement", "Statut", "Urgence", "Confidentialité", "Dépassement", "Etat demande", "Canal de dépôt", "Thème", "Sous thème", "Entité", "Type demande"],
+			"indicateurs": ["total_demande", "demandes_traitees", "demandes_encours", "nombre_messages_non_lus", "nombre_total_messages","nombre_documents_partages", "total_demandes_circuit_normal", "total_demandes_circuit_parametre", "total_demandes_confidentielles", "nombre_demandes_entrantes", "nombre_demandes_sortantes", "nombre_demandes_Internes", "nombre_demandes_IntraGroupe", "df_entites_impliquee", "df_agents_impliques"]
+		},
+		{
+			"nom_onglet":"delais",
+			"mesures":["Nombre de demandes", "Durée dépassement demande"],
+			"dimesions": ["Date depôt", "Date traitement", "Catégorie de dépassement", "Statut", "Urgence", "Confidentialité", "Dépassement", "Etat demande", "Canal de dépôt", "Thème", "Sous thème", "Entité", "Type demande", "Etape", "Statut étape", "Dépassement étape", "Durée dépassement étape"],
+			"indicateurs": ["total_demande", "demandes_traitees", "demandes_encours", "duree_depassement", "nombre_messages_non_lus", "nombre_total_messages","nombre_documents_partages", "total_demandes_circuit_normal", "total_demandes_circuit_parametre", "total_demandes_confidentielles", "nombre_demandes_entrantes", "nombre_demandes_sortantes", "nombre_demandes_Internes", "nombre_demandes_IntraGroupe", "df_entites_impliquee", "df_agents_impliques"]
+		}
+	]
+}

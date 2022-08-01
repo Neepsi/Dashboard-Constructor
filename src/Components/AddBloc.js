@@ -18,7 +18,7 @@ function AddBloc() {
         <div className='mb-5'>
           <Graphe graph={graph} selectedGraph={selectedGraph} setSelectedGraph={setSelectedGraph} />     
         </div> 
-        <div>
+        <div className='mb-2'>
           <Donnees selectedGraph={selectedGraph} />
         </div>
       </div>    

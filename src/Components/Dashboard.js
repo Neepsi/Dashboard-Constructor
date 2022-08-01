@@ -69,8 +69,9 @@ function Test() {
                 <Modal show={show} onHide={handleClose} scrollable={true} centered size='xl'>
                     <Modal.Header closeButton>
                         <Modal.Title>Parametres du bloc</Modal.Title>
-                    </Modal.Header>                                                       
-                    <Modal.Body>
+                    </Modal.Header>      
+
+                    <Modal.Body className='modal-scroll'>
                         <AddBloc />
                     </Modal.Body>
                 

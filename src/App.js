@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react';
 import Dashboard from "./Components/Dashboard";
 
-function App() {
+function App() {  
   return (
     <div className="App">
         <Dashboard />

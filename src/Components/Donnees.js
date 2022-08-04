@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import data from '../data/input.json'
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
 
 function Donnees({ selectedGraph }) {
   const [dataSelection, setDataSelection] = useState(tempData)
@@ -10,21 +12,22 @@ function Donnees({ selectedGraph }) {
       <div className='row'>
           {selectedGraph > -1 && Object.keys(dataSelection['generalites'][selectedGraph]).filter(x => x !== 'name').map((param, index) => 
             <div key={param} className='col-sm-3'>         
-              <label key={param} className='w-100'>{param} :</label>
+              <FloatingLabel key={param} controlId='floatingInput' label={param} className='mb-3'>
               { (typeof dataSelection['generalites'][selectedGraph][param] === 'object') && (!Array.isArray(dataSelection['generalites'][selectedGraph][param][index]))
-                ? <select className='w-100'>
+                ? <Form.Select className='w-100'>
                     {dataSelection['generalites'][selectedGraph][param].map(x => <option key={x} value={x}>{x}</option>)}
-                  </select> : null
+                  </Form.Select> : null
               } 
 
               { (typeof dataSelection['generalites'][selectedGraph][param] === 'object') && (Array.isArray(dataSelection['generalites'][selectedGraph][param][index]))
                 ? dataSelection['generalites'][selectedGraph][param].map(x => 
-                  <select className='w-100 mb-3'>
+                  <Form.Select className='w-100 mb-3'>
                     {x.map(x => <option value={x}>{x}</option>)}
-                  </select>) : null
+                  </Form.Select>) : null
               } 
 
-              { (typeof dataSelection['generalites'][selectedGraph][param] === 'string') && <input className='w-100' type='text' /> }
+              { (typeof dataSelection['generalites'][selectedGraph][param] === 'string') && <Form.Control type='text' placeholder={param  } /> }
+              </FloatingLabel>
             </div>
           )}
       </div>

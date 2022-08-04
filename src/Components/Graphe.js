@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 function Graphe({ graph, selectedGraph, setSelectedGraph }) {
     const handleClick = (i) => { 

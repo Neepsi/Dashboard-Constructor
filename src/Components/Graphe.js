@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-function Graphe({ graphe }) {
+function Graphe({ graph, selectedGraph, setSelectedGraph }) {
+    const handleClick = (i) => { 
+        setSelectedGraph(selectedGraph = i)
+    } 
+ 
   return (
     <div className='d-flex'>
-        <h4 className='me-4'>Graphe :</h4> 
+        <h4 className='me-4'>Graphe</h4> 
         <div className='row'>
-            {graphe.map(g =>                     
-                <div className='col-sm-2'>  
+            {graph.map((g, index) =>                     
+                <div key={g.name} className='col-sm-2'>  
                     <label className='card-label'>
-                        <input name='cardGroup' type='radio' />                
-                        <div className='card mb-3 card-input' style={{maxWidth: 8+'rem'}}>
-                            <img className='card-img-top mt-4' src={ require(`../images/${g.src}`) } height='50px' style={{ objectFit: 'scale-down' }} />
+                        <input name='cardGroup' type='radio' onChange={() => handleClick(index)} />                
+                        <div className='card mb-3 card-input' style={{maxWidth: 12+'rem'}}>
+                            {g.src ? <img className='card-img-top mt-4' src={ require(`../images/${g.src}`) } height='50px' style={{ objectFit: 'scale-down' }} /> : <img className='card-img-top mt-4' src={ require('../images/blank.png') } height='50px' style={{ objectFit: 'scale-down' }} /> }
                             <div className='card-body'>
                                 <p className='card-text text-center card-text'>{g.name}</p>                           
                             </div>                    

@@ -2,9 +2,9 @@ import '../styles/dashboard.css';
 import { useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Modal, Button } from 'react-bootstrap';
-import Blocks from './Blocks';
+import Blocs from './Blocs';
 import Header from './Header';
-import Edit from './Edit';
+import AddBloc from './AddBloc';
 import OneFigure from './OneFigure';
 import TwoFigures from './TwoFigures';
 import Verification from './Verification';
@@ -68,7 +68,6 @@ function Test() {
     {
         let i=1;
         inputList.map(e=>e.id=i++);
-        console.log("hello")
     }
     const deletefigone =()=>
     {   
@@ -90,8 +89,9 @@ function Test() {
             <Header />    
             <button class='m-2' id='btnone' onClick={addOneBlock}>Changer Emplacement</button>
             <button id='btntwo' onClick={addTwoBlocks}>Ajouter Figure</button>  
-            <button className='btn btn-primary mx-2' onClick={handleShow}>Ajouter bloc</button>            
-            <Blocks oneBlockVisi={hiddenBlocks} twoBlockVisi={hiddenBlocks} />  
+            <button className='btn btn-primary mx-2' onClick={handleShow}>Ajouter bloc</button>   
+
+            <Blocs oneBlockVisi={hiddenBlocks} twoBlockVisi={hiddenBlocks} />  
                 <DragDropContext onDragEnd={handleOnDragEnd}>
                     <Droppable droppableId='charts'>
                         {(provided)=>(
@@ -118,11 +118,13 @@ function Test() {
 
                 <Modal show={show} onHide={handleClose} scrollable={true} centered size='xl'>
                     <Modal.Header closeButton>
-                        <Modal.Title>Parametres du bloc</Modal.Title>
-                    </Modal.Header>                                                       
-                    <Modal.Body>
-                        <Edit />
-                    </Modal.Body>                
+                        <Modal.Title>Paramètres du bloc</Modal.Title>
+                    </Modal.Header>      
+
+                    <Modal.Body className='modal-scroll'>
+                        <AddBloc />
+                    </Modal.Body>
+                
                     <Modal.Footer>
                         <Button variant='primary' onClick={handleClose}>Ajouter bloc</Button>
                     </Modal.Footer>

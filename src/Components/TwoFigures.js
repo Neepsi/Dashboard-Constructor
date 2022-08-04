@@ -2,15 +2,41 @@ import '../styles/block.css'
 import three_dots from '../images/three_dots.png'
 import delete_icon from '../images/delete_icon.png'
 import edit_icon from '../images/edit_icon.png'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import EChartsReact from 'echarts-for-react'
 
 function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfunc, editpopup }) {  
     const [open,setOpen] = useState(false);
     const [openn,setOpenn] = useState(false);
-    
-    const DropdownMenu = (props) => {           
-        const DropdownItem = (props) => {               
+    let menuRef= useRef()
+    let menuRefTwo= useRef()
+    useEffect(()=>{
+        let handler = (event) =>{
+            if(!menuRef.current.contains(event.target))
+            {
+                setOpen(false)
+            }
+        }
+        let handlerTwo = (event) =>{
+            if(!menuRefTwo.current.contains(event.target))
+            {
+                setOpenn(false)
+            }
+        }
+        document.addEventListener("mousedown",handler);
+        document.addEventListener("mousedown",handlerTwo);
+        
+        return ()=>
+        {
+            document.removeEventListener("mousedown",handler)
+            document.removeEventListener("mousedown",handlerTwo)
+        }
+    })
+
+    const DropdownMenu = (props) =>
+    {           
+        const DropdownItem = (props) =>
+        {               
             return(
                 <div className='menu-item'>
                     <img src={props.name} id="img-test"/> {props.children}                
@@ -82,13 +108,27 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
                         </div> 
                 </div>
 
-                <div className= {`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} id={"figt"+idfigtwo} style={{height:'285px'}}>                    
-                    <img src={three_dots} id="threedot-icon" onClick={()=>setOpenn(!openn)} />
-                        {openn && (<DropdownMenu id={'idFigtwo'}>{!openn}</DropdownMenu>)}
-                        <div className='me-5'>
+            <div className={`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} id={"figo"+idfigone} style={{height:'285px'}}>
+                <div ref={menuRef}>
+                    <img src={three_dots} id="threedot-icon" onClick={()=>setOpen(!open)} />
+                    <div className='me-5'>
                             <EChartsReact option={option} />
-                        </div> 
-                </div>             
+                        </div>
+                    {open && (<DropdownMenu id={'idFigone'}>{!open} </DropdownMenu>)}
+                </div>
+            </div>
+
+            <div className= {`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} id={"figt"+idfigtwo} style={{height:'285px'}}>                    
+                <div ref={menuRefTwo}>
+                    <img src={three_dots} id="threedot-icon" onClick={()=>setOpenn(!openn)} />
+                    <div className='me-5'>
+                            <EChartsReact option={option} />
+                        </div>
+                    {openn && (<DropdownMenu id={'idFigtwo'}>{!openn}</DropdownMenu>)}                 
+                </div>
+                
+                        
+            </div>             
             </div>
         </div>                    
     )

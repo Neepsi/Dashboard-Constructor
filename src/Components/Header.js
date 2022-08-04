@@ -27,12 +27,8 @@ function Header() {
                                 <a className='nav-link active fs-7 fw-bold ms-3' aria-current='page' href='#'>Généralités</a>
                             </li>
 
-                            <li className='nav-item dropdown'>
-                                <a className='nav-link dropdown-toggle fs-7 fw-bold ms-3 text-dark' href='#' id='navbarDropdown' role='button' data-bs-toggle='dropdown' aria-expanded='false'>Délais</a>
-                                    <ul className='dropdown-menu' aria-labelledby='navbarDropdown'>
-                                        <li><a className='dropdown-item fs-8 fw-bold' href='#'>Délais globaux</a></li>
-                                        <li><a className='dropdown-item fs-8 fw-bold' href='#'>Délais partiels</a></li>
-                                    </ul>
+                            <li class='nav-item dropdown'>
+                                <a class='nav-link active fs-7 fw-bold ms-3' aria-current='page' href='#'>Délais</a>
                             </li> 
 
                             <li className='nav-item'>

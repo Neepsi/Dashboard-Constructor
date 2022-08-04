@@ -7,7 +7,7 @@ function Graphe({ graph, selectedGraph, setSelectedGraph }) {
  
   return (
     <div className='d-flex'>
-        <h4 className='me-4'>Graphe :</h4> 
+        <h4 className='me-4'>Graphe</h4> 
         <div className='row'>
             {graph.map((g, index) =>                     
                 <div key={g.name} className='col-sm-2'>  

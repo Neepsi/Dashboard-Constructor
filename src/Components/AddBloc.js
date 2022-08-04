@@ -8,6 +8,7 @@ import '../styles/edit.css'
 function AddBloc() {
   const [graph, setGraph] = useState(sampleGraph)
   const [selectedGraph, setSelectedGraph] = useState(-1)
+  const [selectedZone, setSelectedZone] = useState()
 
   return (
     <div className='d-flex flex-column'>

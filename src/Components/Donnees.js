@@ -6,7 +6,7 @@ function Donnees({ selectedGraph }) {
   
   return (
     <div className='d-flex'>
-      <h4 className='me-4'>Données :</h4>
+      <h4 className='me-3'>Données</h4>
       <div className='row'>
           {selectedGraph > -1 && Object.keys(dataSelection['generalites'][selectedGraph]).filter(x => x !== 'name').map((param, index) => 
             <div key={param} className='col-sm-3'>         
@@ -24,9 +24,7 @@ function Donnees({ selectedGraph }) {
                   </select>) : null
               } 
 
-              {
-                (typeof dataSelection['generalites'][selectedGraph][param] === 'string') && <input className='w-100' type='text' />
-              }
+              { (typeof dataSelection['generalites'][selectedGraph][param] === 'string') && <input className='w-100' type='text' /> }
             </div>
           )}
       </div>

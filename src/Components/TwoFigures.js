@@ -2,7 +2,7 @@ import '../styles/block.css'
 import three_dots from '../images/three_dots.png'
 import delete_icon from '../images/delete_icon.png'
 import edit_icon from '../images/edit_icon.png'
-import { useState, useRef, useEffect } from 'react'
+import React,{ useState, useRef, useEffect } from 'react'
 import EChartsReact from 'echarts-for-react'
 
 function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfunc, editpopup }) {  
@@ -99,15 +99,7 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
 
     return(    
         <div className='container mb-3'>    
-            <div className='row' id={"subFig"+idFigure}>   
-                <div className={`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} id={"figo"+idfigone} style={{height:'285px'}}>
-                    <img src={three_dots} id="threedot-icon" onClick={()=>setOpen(!open)} />
-                        {open && (<DropdownMenu id={'idFigone'}>{!open} </DropdownMenu>)}
-                        <div className='me-5'>
-                            <EChartsReact option={option} />
-                        </div> 
-                </div>
-
+            <div className='row' id={"subFig"+idFigure}>                   
             <div className={`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} id={"figo"+idfigone} style={{height:'285px'}}>
                 <div ref={menuRef}>
                     <img src={three_dots} id="threedot-icon" onClick={()=>setOpen(!open)} />

@@ -1,5 +1,5 @@
 import empty_state from '../images/empty_state.png'
-
+import React from 'react';
 function Blocs({ oneBlockVisi, twoBlockVisi }) {
     return(  
         <div className='d-flex justify-content-center'>

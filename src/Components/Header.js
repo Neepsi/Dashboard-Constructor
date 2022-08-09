@@ -1,6 +1,9 @@
 import '../styles/header.css'
+import React from 'react'
 import bg_image from '../images/illu_bg_one_1.svg'
 import logo from '../images/logo1.png'
+
+
 
 function Header() {  
     return(

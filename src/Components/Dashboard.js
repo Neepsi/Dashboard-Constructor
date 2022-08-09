@@ -1,5 +1,5 @@
 import '../styles/dashboard.css';
-import { useState } from 'react';
+import React,{ useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Modal, Button } from 'react-bootstrap';
 import Blocs from './Blocs';
@@ -21,7 +21,7 @@ function Test() {
 
     const listId = (inputList.length > 0) ? inputList.length : 0;   
 
-    const handleClose = () => setShow(false)
+    const handleClose = () => {setShow(false); setSelectedGraph(-1)}
     const handleShow = () => setShow(true)
     const editShow = () => setShow(true)    
     

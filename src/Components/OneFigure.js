@@ -3,6 +3,7 @@ import three_dots from '../images/three_dots.png'
 import delete_icon from '../images/delete_icon.png'
 import edit_icon from '../images/edit_icon.png'
 import { useState, useRef, useEffect } from 'react'
+import React from 'react'
 import EChartsReact from 'echarts-for-react'
 
 function OneFigure({ bgColor,idFigure,toggleverif,editpopup}) {  

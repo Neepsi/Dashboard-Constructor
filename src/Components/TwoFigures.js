@@ -23,13 +23,13 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
                 setOpenn(false)
             }
         }
-        document.addEventListener("mousedown",handler);
-        document.addEventListener("mousedown",handlerTwo);
+        document.addEventListener('mousedown',handler);
+        document.addEventListener('mousedown',handlerTwo);
         
         return ()=>
         {
-            document.removeEventListener("mousedown",handler)
-            document.removeEventListener("mousedown",handlerTwo)
+            document.removeEventListener('mousedown',handler)
+            document.removeEventListener('mousedown',handlerTwo)
         }
     })
 
@@ -39,7 +39,7 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
         {               
             return(
                 <div className='menu-item'>
-                    <img src={props.name} id="img-test"/> {props.children}                
+                    <img src={props.name} id='img-test'/> {props.children}                
                 </div>
             )           
         }
@@ -99,36 +99,26 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
 
     return(    
         <div className='container mb-3'>    
-            <div className='row' id={"subFig"+idFigure}>   
-                <div className={`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} id={"figo"+idfigone} style={{height:'285px'}}>
-                    <img src={three_dots} id="threedot-icon" onClick={()=>setOpen(!open)} />
-                        {open && (<DropdownMenu id={'idFigone'}>{!open} </DropdownMenu>)}
+            <div className='row' id={'subFig'+idFigure}>   
+                <div className={`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} id={'figo'+idfigone} style={{height:'285px'}}>
+                    <div ref={menuRef}>
+                        <img src={three_dots} id='threedot-icon' onClick={()=>setOpen(!open)} />
                         <div className='me-5'>
                             <EChartsReact option={option} />
-                        </div> 
+                        </div>
+                        {open && (<DropdownMenu id={'idFigone'}>{!open} </DropdownMenu>)}
+                    </div>
                 </div>
 
-            <div className={`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} id={"figo"+idfigone} style={{height:'285px'}}>
-                <div ref={menuRef}>
-                    <img src={three_dots} id="threedot-icon" onClick={()=>setOpen(!open)} />
-                    <div className='me-5'>
-                            <EChartsReact option={option} />
+                <div className= {`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} id={'figt'+idfigtwo} style={{height:'285px'}}>                    
+                    <div ref={menuRefTwo}>
+                        <img src={three_dots} id='threedot-icon' onClick={()=>setOpenn(!openn)} />
+                        <div className='me-5'>
+                                <EChartsReact option={option} />
                         </div>
-                    {open && (<DropdownMenu id={'idFigone'}>{!open} </DropdownMenu>)}
-                </div>
-            </div>
-
-            <div className= {`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} id={"figt"+idfigtwo} style={{height:'285px'}}>                    
-                <div ref={menuRefTwo}>
-                    <img src={three_dots} id="threedot-icon" onClick={()=>setOpenn(!openn)} />
-                    <div className='me-5'>
-                            <EChartsReact option={option} />
-                        </div>
-                    {openn && (<DropdownMenu id={'idFigtwo'}>{!openn}</DropdownMenu>)}                 
-                </div>
-                
-                        
-            </div>             
+                        {openn && (<DropdownMenu id={'idFigtwo'}>{!openn}</DropdownMenu>)}                 
+                    </div>                      
+                </div>             
             </div>
         </div>                    
     )

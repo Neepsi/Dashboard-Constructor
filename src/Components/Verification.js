@@ -1,8 +1,8 @@
 import React from 'react';
 import '../styles/verification.css'
 import delete_illu from '../images/delete_illu.svg'
-function Verification ({toggleveri,deleteFig})
-{        
+
+function Verification ({ toggleveri, deleteFig }) {        
     return(
         <div id="modal">
             <div id="overlay"></div>

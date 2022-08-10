@@ -1,7 +1,7 @@
 import React from 'react'
 
 function Graphe({ graph, selectedGraph, setSelectedGraph }) {
-    const handleClick = (i) => { 
+    const handleChange = (i) => { 
         setSelectedGraph(selectedGraph = i)
     } 
  
@@ -12,7 +12,7 @@ function Graphe({ graph, selectedGraph, setSelectedGraph }) {
             {graph.map((g, index) =>                     
                 <div key={g.name} className='col-sm-2'>  
                     <label className='card-label'>
-                        <input name='cardGroup' type='radio' onChange={() => handleClick(index)} />                
+                        <input name='cardGroup' type='radio' onChange={() => handleChange(index)} />                
                         <div className='card mb-3 card-input' style={{maxWidth: 12+'rem'}}>
                             {g.src ? <img className='card-img-top mt-4' src={ require(`../images/${g.src}`) } height='50px' style={{ objectFit: 'scale-down' }} /> : <img className='card-img-top mt-4' src={ require('../images/blank.png') } height='50px' style={{ objectFit: 'scale-down' }} /> }
                             <div className='card-body'>

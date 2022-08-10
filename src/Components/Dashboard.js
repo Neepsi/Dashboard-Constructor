@@ -9,7 +9,7 @@ import OneFigure from './OneFigure';
 import TwoFigures from './TwoFigures';
 import Verification from './Verification';
 
-function Test() {   
+function Dashboard() {   
     const [selectedGraph, setSelectedGraph] = useState(-1)
     const [selectedZone, setSelectedZone] = useState(1)
     const [graph, setGraph] = useState(sampleGraph)
@@ -20,6 +20,7 @@ function Test() {
     const [getid,setGetId] = useState();
 
     const listId = (inputList.length > 0) ? inputList.length : 0;   
+
 
     const handleClose = () => {setShow(false); setSelectedGraph(-1)}
     const handleShow = () => setShow(true)
@@ -133,7 +134,7 @@ function Test() {
 const sampleGraph = [
     {name: 'Scatter', src: 'scatter.png'}, 
     {name: 'Bar', src: 'bar-chart.png'},
-    {name: 'Horizaontal bar', src: 'horizontal-bar-chart.png'},
+    {name: 'Horizontal bar', src: 'horizontal-bar-chart.png'},
     {name: 'Pie', src: 'pie-chart.png'},
     {name: 'Sunburst', src: 'sunburst.png'},
     {name: 'Treemap', src: 'treemap-chart.png'},
@@ -141,4 +142,4 @@ const sampleGraph = [
     {name: 'Indicator', src: ''},
 ]
 
-export default Test;
+export default Dashboard;

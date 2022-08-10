@@ -7,12 +7,14 @@ import Header from './Header';
 import AddBloc from './AddBloc';
 import OneFigure from './OneFigure';
 import TwoFigures from './TwoFigures';
+import option from '../data/graph.json';
 import Verification from './Verification';
 
 function Dashboard() {   
     const [selectedGraph, setSelectedGraph] = useState(-1)
     const [selectedZone, setSelectedZone] = useState(1)
     const [graph, setGraph] = useState(sampleGraph)
+    const [varr,SetVarr] = useState();
 
     const [hiddenBlocks, setHiddenBlocks] = useState();
     const [inputList, setInputList] = useState([]);
@@ -28,6 +30,7 @@ function Dashboard() {
     
     const [modal, setModal] = useState(false);
     const [modalTwo, setModalTwo] = useState(false);
+    console.log(selectedGraph)
 
     const toggleModal = (e) => {
         setModal(!modal)
@@ -78,7 +81,7 @@ function Dashboard() {
         let newArr = inputList.concat(newFig);
         setInputList(newArr);
         setHiddenBlocks('none');
-
+        SetVarr(selectedGraph);
         handleClose()
     }
 
@@ -99,9 +102,10 @@ function Dashboard() {
                                         {(provided,snapshot)=>(                                            
                                             <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} id="figs">                                               
                                                 {(list.oneBlockVisi) ? 
-                                                  <OneFigure idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={()=>editShow()} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)}/> 
+                                                  <OneFigure opt={option[varr]} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={()=>editShow()} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)}/> 
                                                 : <TwoFigures bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} deletefunc={()=>toggleModalTwo(list.id)} editpopup={()=>editShow()} idFigure={list.id} idfigone={list.id} orderfunc={listerFigures} idfigtwo={list.id}/>                                                
-                                                }                                                
+                                                }
+                                                                                            
                                             </li>                                            
                                         )}                                        
                                     </Draggable>
@@ -120,7 +124,7 @@ function Dashboard() {
                     </Modal.Header>      
 
                     <Modal.Body className='modal-scroll'>
-                        <AddBloc selectedZone={selectedZone} setSelectedZone={setSelectedZone} graph={graph} selectedGraph={selectedGraph} setSelectedGraph={setSelectedGraph} />
+                        <AddBloc option={option} selectedZone={selectedZone} setSelectedZone={setSelectedZone} graph={graph} selectedGraph={selectedGraph} setSelectedGraph={setSelectedGraph} />
                     </Modal.Body>
                 
                     <Modal.Footer>

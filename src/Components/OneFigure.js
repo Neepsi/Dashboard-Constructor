@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from 'react'
 import React from 'react'
 import EChartsReact from 'echarts-for-react'
 
-function OneFigure({ bgColor,idFigure,toggleverif,editpopup}) {  
+function OneFigure({ bgColor,idFigure,toggleverif,editpopup,opt}) {  
     const [open,setOpen] = useState(false);
     let menuRef= useRef()
 
@@ -49,26 +49,6 @@ function OneFigure({ bgColor,idFigure,toggleverif,editpopup}) {
         )     
     }
 
-    const options = {
-        grid: { top: 8, right: 8, bottom: 24, left: 65 },
-        xAxis: {
-          type: 'category',
-          data:  ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        },
-        yAxis: {
-          type: 'value',
-        },
-        series: [
-          {
-            data: [820, 932, 901, 934, 1290, 1330, 1320, 1400, 1500, 1700, 2000, 800],
-            type: 'bar',
-            smooth: true,
-          },
-        ],
-        tooltip: {
-          trigger: 'axis',
-        },
-    };
 
     return(    
         <div className='container mb-5' id={'subFig'+idFigure}>
@@ -77,7 +57,7 @@ function OneFigure({ bgColor,idFigure,toggleverif,editpopup}) {
                     <div ref={menuRef}>
                         <img src={three_dots} id='threedot-icon' onClick={()=>setOpen(!open)} />
                         <div className='me-5'>
-                            <EChartsReact option={options} />
+                            <EChartsReact option={opt} />
                         </div> 
                         {open && (<DropdownMenu></DropdownMenu>)} 
                     </div>                                                                                                                                         

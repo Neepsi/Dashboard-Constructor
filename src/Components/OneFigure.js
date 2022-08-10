@@ -6,32 +6,29 @@ import { useState, useRef, useEffect } from 'react'
 import React from 'react'
 import EChartsReact from 'echarts-for-react'
 
-function OneFigure({ bgColor,idFigure,toggleverif,editpopup}) {  
-    const [open,setOpen] = useState(false);
-    let menuRef= useRef()
+function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option }) {  
+    const [open, setOpen] = useState(false)
+    let menuRef = useRef()
 
-    useEffect(()=>{
-        let handler = (event) =>{
-            if(!menuRef.current.contains(event.target))
-            {
+    useEffect(() => {
+        let handler = (event) => {
+            if(!menuRef.current.contains(event.target)) {
                 setOpen(false)
             }
         }
-        document.addEventListener('mousedown',handler);
+
+        document.addEventListener('mousedown', handler)
         
-        return ()=>
-        {
-            document.removeEventListener('mousedown',handler)
+        return () => {
+            document.removeEventListener('mousedown', handler)
         }
     })
 
-    const DropdownMenu = () =>
-    {
-        const DropdownItem = (props) =>
-        {
+    const DropdownMenu = () => {
+        const DropdownItem = (props) => {
             return(
                 <div className='menu-item'>
-                <img src={props.name} id='img-test'/> {props.children}                
+                    <img src={props.name} id='img-test'/> {props.children}                
                 </div>
             )
         }
@@ -49,36 +46,15 @@ function OneFigure({ bgColor,idFigure,toggleverif,editpopup}) {
         )     
     }
 
-    const options = {
-        grid: { top: 8, right: 8, bottom: 24, left: 65 },
-        xAxis: {
-          type: 'category',
-          data:  ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        },
-        yAxis: {
-          type: 'value',
-        },
-        series: [
-          {
-            data: [820, 932, 901, 934, 1290, 1330, 1320, 1400, 1500, 1700, 2000, 800],
-            type: 'bar',
-            smooth: true,
-          },
-        ],
-        tooltip: {
-          trigger: 'axis',
-        },
-    };
-
     return(    
         <div className='container mb-5' id={'subFig'+idFigure}>
             <div className='row'>   
-                <div className={`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`}style={{height:'340px'}}>
+                <div className={`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} style={{height:'340px'}}>
                     <div ref={menuRef}>
-                        <img src={three_dots} id='threedot-icon' onClick={()=>setOpen(!open)} />
+                        <img src={three_dots} id='threedot-icon' onClick={() => setOpen(!open)} />
                         <div className='me-5'>
-                            <EChartsReact option={options} />
-                        </div> 
+                            <EChartsReact option={option} />
+                        </div>
                         {open && (<DropdownMenu></DropdownMenu>)} 
                     </div>                                                                                                                                         
                 </div>                              
@@ -87,4 +63,4 @@ function OneFigure({ bgColor,idFigure,toggleverif,editpopup}) {
     )
 }
 
-export default OneFigure;
+export default OneFigure

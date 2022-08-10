@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import Zone from './Zone';
-import Graphe from './Graphe';
-import Donnees from './Donnees';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Zone from './Zone'
+import Graphe from './Graphe'
+import Donnees from './Donnees'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/edit.css'
 
-function AddBloc({ selectedZone, setSelectedZone, graph, selectedGraph, setSelectedGraph }) {
+function AddBloc({ selectedZone, setSelectedZone, graph, selectedGraph, setSelectedGraph, option }) {
   return (
     <div className='d-flex flex-column'>
       <div>
@@ -16,11 +15,11 @@ function AddBloc({ selectedZone, setSelectedZone, graph, selectedGraph, setSelec
           <Graphe graph={graph} selectedGraph={selectedGraph} setSelectedGraph={setSelectedGraph} />     
         </div> 
         <div className='mb-2'>
-          <Donnees selectedGraph={selectedGraph} />
+          <Donnees selectedGraph={selectedGraph} option={option} />
         </div>
       </div>    
     </div>
-  );
+  )
 }
 
-export default AddBloc;
+export default AddBloc

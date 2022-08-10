@@ -1,4 +1,3 @@
-import React from 'react';
 import '../styles/verification.css'
 import delete_illu from '../images/delete_illu.svg'
 

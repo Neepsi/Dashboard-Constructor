@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import data from '../data/input.json'
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Form from 'react-bootstrap/Form';
+import FloatingLabel from 'react-bootstrap/FloatingLabel'
+import Form from 'react-bootstrap/Form'
 import EChartsReact from 'echarts-for-react'
 
-function Donnees({ selectedGraph,option }) {
+function Donnees({ selectedGraph, option }) {
   const [dataSelection, setDataSelection] = useState(tempData)
 
   return (
@@ -38,7 +38,12 @@ function Donnees({ selectedGraph,option }) {
         )}
 
         {selectedGraph !== -1 && option.map((x, index) => <div className='mt-2'>          
-          {index === selectedGraph && <EChartsReact option={x} style={{height: '500px'} } />}
+
+          {index === selectedGraph && 
+            <div>
+              <h4 className='text-center'></h4>
+              <EChartsReact option={x} style={{height: '500px'} } />
+            </div>}
         </div>)}
       </div>
     </div>

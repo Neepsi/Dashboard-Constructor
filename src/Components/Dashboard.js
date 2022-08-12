@@ -1,36 +1,38 @@
-import '../styles/dashboard.css';
-import React,{ useState } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { Modal, Button } from 'react-bootstrap';
-import Blocs from './Blocs';
-import Header from './Header';
-import AddBloc from './AddBloc';
-import OneFigure from './OneFigure';
-import TwoFigures from './TwoFigures';
-import option from '../data/graph.json';
-import Verification from './Verification';
+import '../styles/dashboard.css'
+import React,{ useState } from 'react'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { Modal, Button } from 'react-bootstrap'
+import Blocs from './Blocs'
+import Header from './Header'
+import AddBloc from './AddBloc'
+import OneFigure from './OneFigure'
+import TwoFigures from './TwoFigures'
+import option from '../data/graph.json'
+import Verification from './Verification'
 
 function Dashboard() {   
     const [selectedGraph, setSelectedGraph] = useState(-1)
     const [selectedZone, setSelectedZone] = useState(1)
     const [graph, setGraph] = useState(sampleGraph)
-    const [varr,SetVarr] = useState();
 
-    const [hiddenBlocks, setHiddenBlocks] = useState();
-    const [inputList, setInputList] = useState([]);
-    const [show, setShow] = useState(false);
-    const [getid,setGetId] = useState();
+    const [hiddenBlocks, setHiddenBlocks] = useState()
+    const [inputList, setInputList] = useState([])
+    const [show, setShow] = useState(false)
+    const [showedit, setShowEdit] = useState(false)
+    const [getid,setGetId] = useState()
+    const [dropDownId, setDropDownId] = useState();
 
-    const listId = (inputList.length > 0) ? inputList.length : 0;   
-
-
-    const handleClose = () => {setShow(false); setSelectedGraph(-1)}
+    const listId = (inputList.length > 0) ? inputList.length : 0   
+    const handleClose = () => {setShow(false); setSelectedGraph(-1);}
+    const handleCloseEdit =() =>{setShowEdit(false);setSelectedGraph(-1)}
     const handleShow = () => setShow(true)
+    const handleShowEdit = (id) => {setShowEdit(true); setGetId(id)}
     const editShow = () => setShow(true)    
     
-    const [modal, setModal] = useState(false);
-    const [modalTwo, setModalTwo] = useState(false);
-    console.log(selectedGraph)
+
+    const [modal, setModal] = useState(false)
+    const [modalTwo, setModalTwo] = useState(false)
+
 
     const toggleModal = (e) => {
         setModal(!modal)
@@ -43,23 +45,23 @@ function Dashboard() {
     }
 
     const handleOnDragEnd = (result) => {
-        const items = Array.from(inputList);
+        const items = Array.from(inputList)
         const [reorderedItem] = items.splice(result.source.index, 1)
-        items.splice(result.destination.index, 0, reorderedItem);
-        setInputList(items);
+        items.splice(result.destination.index, 0, reorderedItem)
+        setInputList(items)
     }  
     
     const handleDelete = () => {                      
-        let i = 1;
-        let arr = inputList.filter(x => x.id !== getid);        
+        let i = 1
+        let arr = inputList.filter(x => x.id !== getid)        
         arr.forEach(e => e.id = i++)
         setInputList(arr)
         setModal(false)
     }
 
     const listerFigures = () => {
-        let i = 1;
-        inputList.map(e => e.id = i++);
+        let i = 1
+        inputList.map(e => e.id = i++)
     }
 
     const deleteFigOne = () => {   
@@ -72,19 +74,36 @@ function Dashboard() {
     }
 
     const deleteOneFig = () => {    
-        listerFigures();
-        deleteFigOne();
+        listerFigures()
+        deleteFigOne()
     } 
 
     const addBloc = () => {
-        let newFig = (selectedZone === 1) ? {id: listId+1, oneBlockVisi: true, twoBlockVisi: false} : {id: listId+1, oneBlockVisi: false, twoBlockVisi: true}
-        let newArr = inputList.concat(newFig);
-        setInputList(newArr);
-        setHiddenBlocks('none');
-        SetVarr(selectedGraph);
+        let newFig = (selectedZone === 1) ? {id: listId+1, oneBlockVisi: true, twoBlockVisi: false, option: option[selectedGraph]} : {id: listId+1, oneBlockVisi: false, twoBlockVisi: true, option1: option[selectedGraph], option2: ''}
+        let newArr = inputList.concat(newFig)
+        setInputList(newArr)
+        setHiddenBlocks('none')
         handleClose()
     }
 
+    const editOnefig= () =>
+    {   let v=''
+        inputList.map((x,index)=>(x.id==getid) &&  ((v=index)))
+        if(inputList[v].oneBlockVisi===true)
+        {
+            inputList.map((x, index) => (x.id===getid) && ( inputList.splice(index, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: option[selectedGraph]})));
+            handleCloseEdit(); 
+        }
+        else
+        {
+            
+            console.log(dropDownId)
+
+        }    
+        
+           
+    }
+    
     (modal) ? document.body.classList.add('active-modal') : document.body.classList.remove('active-modal')
 
     return (            
@@ -95,17 +114,16 @@ function Dashboard() {
             <Blocs oneBlockVisi={hiddenBlocks} twoBlockVisi={hiddenBlocks} />  
                 <DragDropContext onDragEnd={handleOnDragEnd}>
                     <Droppable droppableId='charts'>
-                        {(provided)=>(
+                        {(provided) => (
                             <ul className='charts list-unstyled' {...provided.droppableProps} ref={provided.innerRef}>                                                            
-                                {inputList.map((list,index) =>                                
+                                {inputList.map((list, index) =>                                
                                     <Draggable key={list.id} draggableId={list.id.toString()} index={index}>                                                                                
                                         {(provided,snapshot)=>(                                            
                                             <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} id="figs">                                               
                                                 {(list.oneBlockVisi) ? 
-                                                  <OneFigure opt={option[varr]} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={()=>editShow()} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)}/> 
-                                                : <TwoFigures bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} deletefunc={()=>toggleModalTwo(list.id)} editpopup={()=>editShow()} idFigure={list.id} idfigone={list.id} orderfunc={listerFigures} idfigtwo={list.id}/>                                                
-                                                }
-                                                                                            
+                                                  <OneFigure option={list.option} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={ () => handleShowEdit(list.id)} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)}/> 
+                                                : <TwoFigures option1={list.option1} option2={list.option2} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} deletefunc={()=>toggleModalTwo(list.id)} editpopup={()=>handleShowEdit(list.id)} idFigure={list.id} idfigone={list.id} orderfunc={listerFigures} idfigtwo={list.id}/>                                                
+                                                }                                                
                                             </li>                                            
                                         )}                                        
                                     </Draggable>
@@ -128,9 +146,24 @@ function Dashboard() {
                     </Modal.Body>
                 
                     <Modal.Footer>
-                        <Button variant='primary' onClick={addBloc}>Ajouter bloc</Button>
+                        <Button variant='primary' onClick={addBloc}>Ajouter bloc</Button>                    
                     </Modal.Footer>
-            </Modal>                                              
+            </Modal>
+
+            <Modal show={showedit} onHide={handleCloseEdit} scrollable={true} centered size='xl'>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Paramètres du bloc</Modal.Title>
+                    </Modal.Header>      
+
+                    <Modal.Body className='modal-scroll'>
+                        <AddBloc option={option} selectedZone={selectedZone} setSelectedZone={setSelectedZone} graph={graph} selectedGraph={selectedGraph} setSelectedGraph={setSelectedGraph} />
+                    </Modal.Body>
+                
+                    <Modal.Footer>
+                        <Button variant='primary' onClick={editOnefig}>Modifier</Button>                    
+                    </Modal.Footer>
+            </Modal>
+                                                     
         </div>
     )
 }
@@ -146,4 +179,4 @@ const sampleGraph = [
     {name: 'Indicator', src: ''},
 ]
 
-export default Dashboard;
+export default Dashboard

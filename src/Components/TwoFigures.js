@@ -14,17 +14,9 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
     let menuRefTwo = useRef()
 
     useEffect(() => {
-        let handler = (event) => {
-            if(!menuRef.current.contains(event.target)) {
-                setOpen(false)
-            }
-        }
+        let handler = (event) => { if(!menuRef.current.contains(event.target)) setOpen(false) }
 
-        let handlerTwo = (event) => {
-            if(!menuRefTwo.current.contains(event.target)) {
-                setOpenn(false)
-            }
-        }
+        let handlerTwo = (event) => { if(!menuRefTwo.current.contains(event.target)) setOpenn(false) }
 
         document.addEventListener('mousedown', handler)
         document.addEventListener('mousedown', handlerTwo)
@@ -44,10 +36,7 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
             )           
         }
 
-        const handleClick = () => {   
-            orderfunc()
-            deletefunc()      
-        }
+        const handleClick = () => { orderfunc(); deletefunc() }
 
         return(
             <div className='dropdownmenu'>

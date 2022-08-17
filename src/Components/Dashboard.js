@@ -12,15 +12,18 @@ import Verification from './Verification'
 
 function Dashboard() {   
     const [selectedGraph, setSelectedGraph] = useState(-1)
-    const [selectedZone, setSelectedZone] = useState(1)
+    const [selectedZone, setSelectedZone] = useState(0)
     const [graph, setGraph] = useState(sampleGraph)
+    const [figTitle, setFigTitle] = useState('')
 
     const [hiddenBlocks, setHiddenBlocks] = useState()
     const [inputList, setInputList] = useState([])
+
     const [show, setShow] = useState(false)
     const [getid,setGetId] = useState()
 
-    const listId = (inputList.length > 0) ? inputList.length : 0   
+    const listId = (inputList.length > 0) ? inputList.length : 0 
+
     const handleClose = () => {setShow(false); setSelectedGraph(-1)}
     const handleShow = () => setShow(true)
     const editShow = () => setShow(true)    
@@ -28,49 +31,31 @@ function Dashboard() {
     const [modal, setModal] = useState(false)
     const [modalTwo, setModalTwo] = useState(false)
 
-    const toggleModal = (e) => {
-        setModal(!modal)
-        setGetId(e)        
-    }
+    const toggleModal = (e) => { setModal(!modal); setGetId(e) }
 
-    const toggleModalTwo = (e) => {
-        setModalTwo(!modalTwo)
-        setGetId(e)        
-    }
+    const toggleModalTwo = (e) => { setModalTwo(!modalTwo); setGetId(e) }
 
     const handleOnDragEnd = (result) => {
-        const items = Array.from(inputList)
-        const [reorderedItem] = items.splice(result.source.index, 1)
+        const items = Array.from(inputList), [reorderedItem] = items.splice(result.source.index, 1)
         items.splice(result.destination.index, 0, reorderedItem)
         setInputList(items)
     }  
     
     const handleDelete = () => {                      
-        let i = 1
-        let arr = inputList.filter(x => x.id !== getid)        
+        let i = 1, arr = inputList.filter(x => x.id !== getid)        
         arr.forEach(e => e.id = i++)
-        setInputList(arr)
-        setModal(false)
+        setInputList(arr); setModal(false)
     }
 
-    const listerFigures = () => {
-        let i = 1
-        inputList.map(e => e.id = i++)
-    }
+    const listerFigures = () => { let i = 1; inputList.map(e => e.id = i++) }
 
     const deleteFigOne = () => {   
-        let i = 1, ar = [], newdata=[], posi = inputList.indexOf(inputList[getid-1])
-
-        ar = inputList.splice(posi, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false})
+        let newdata=[]
         inputList.map(e => newdata.push(e))      
-        setInputList(newdata)
-        setModalTwo(false)           
+        setInputList(newdata); setModalTwo(false)           
     }
 
-    const deleteOneFig = () => {    
-        listerFigures()
-        deleteFigOne()
-    } 
+    const deleteOneFig = () => { listerFigures(); deleteFigOne() } 
 
     const addBloc = () => {
         let newFig = (selectedZone === 1) ? {id: listId+1, oneBlockVisi: true, twoBlockVisi: false, option: option[selectedGraph]} : {id: listId+1, oneBlockVisi: false, twoBlockVisi: true, option1: option[selectedGraph], option2: ''}
@@ -95,18 +80,18 @@ function Dashboard() {
                             <ul className='charts list-unstyled' {...provided.droppableProps} ref={provided.innerRef}>                                                            
                                 {inputList.map((list, index) =>                                
                                     <Draggable key={list.id} draggableId={list.id.toString()} index={index}>                                                                                
-                                        {(provided,snapshot)=>(                                            
+                                        {(provided,snapshot) => (                                            
                                             <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} id="figs">                                               
                                                 {(list.oneBlockVisi) ? 
-                                                  <OneFigure option={list.option} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={()=>editShow()} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)}/> 
-                                                : <TwoFigures option1={list.option1} option2={list.option2} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} deletefunc={()=>toggleModalTwo(list.id)} editpopup={()=>editShow()} idFigure={list.id} idfigone={list.id} orderfunc={listerFigures} idfigtwo={list.id}/>                                                
+                                                  <OneFigure option={list.option} idFigureOne={list.id} idFigure={list.id} toggleverif={() => toggleModal(list.id)} editpopup={() => editShow()} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)}/> 
+                                                : <TwoFigures option1={list.option1} option2={list.option2} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} deletefunc={() => toggleModalTwo(list.id)} editpopup={() => editShow()} idFigure={list.id} idfigone={list.id} orderfunc={listerFigures} idfigtwo={list.id}/>                                                
                                                 }                                                
                                             </li>                                            
                                         )}                                        
                                     </Draggable>
                                 )}
-                                {modal && <Verification toggleveri={()=>toggleModal()} deleteFig={()=>handleDelete()}/>}
-                                {modalTwo && <Verification toggleveri={()=>toggleModalTwo()} deleteFig={()=>deleteOneFig()} />}
+                                {modal && <Verification toggleveri={() => toggleModal()} deleteFig={() => handleDelete()}/>}
+                                {modalTwo && <Verification toggleveri={() => toggleModalTwo()} deleteFig={() => deleteOneFig()} />}
                                 {provided.placeholder}
                             </ul>
                         )}
@@ -119,11 +104,11 @@ function Dashboard() {
                     </Modal.Header>      
 
                     <Modal.Body className='modal-scroll'>
-                        <AddBloc option={option} selectedZone={selectedZone} setSelectedZone={setSelectedZone} graph={graph} selectedGraph={selectedGraph} setSelectedGraph={setSelectedGraph} />
+                        <AddBloc option={option} selectedZone={selectedZone} setSelectedZone={setSelectedZone} graph={graph} selectedGraph={selectedGraph} setSelectedGraph={setSelectedGraph} figTitle={figTitle} setFigTitle={setFigTitle} />
                     </Modal.Body>
                 
                     <Modal.Footer>
-                        <Button variant='primary' onClick={addBloc}>Ajouter bloc</Button>
+                        <Button variant='primary' onClick={addBloc} disabled={selectedZone === 0 || selectedGraph === -1 ? true : false}>Ajouter bloc</Button>                       
                     </Modal.Footer>
             </Modal>                                              
         </div>

@@ -1,7 +1,8 @@
 import React from 'react'
 
-function Graphe({ graph, selectedGraph, setSelectedGraph }) {
+function Graphe({ graph, selectedGraph, setSelectedGraph, setFigTitle }) {
     const handleChange = (i) => { 
+        setFigTitle('')
         setSelectedGraph(selectedGraph = i)
     } 
  

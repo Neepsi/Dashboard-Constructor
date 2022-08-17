@@ -30,12 +30,8 @@ function Header() {
                                 <a className='nav-link active fs-7 fw-bold ms-3' aria-current='page' href='#'>Généralités</a>
                             </li>
 
-                            <li class='nav-item dropdown'>
-                                <a class='nav-link active fs-7 fw-bold ms-3' aria-current='page' href='#'>Délais</a>
-                            </li> 
-
-                            <li className='nav-item'>
-                                <a className='nav-link fs-7 fw-bold ms-3 text-dark' href='#'>Utilisation de la solution</a>
+                            <li className='nav-item dropdown'>
+                                <a className='nav-link active fs-7 fw-bold ms-3' aria-current='page' href='#'>Délais</a>
                             </li>       
                         </ul>
                     </div>

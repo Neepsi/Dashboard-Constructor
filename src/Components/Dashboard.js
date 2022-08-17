@@ -1,5 +1,5 @@
 import '../styles/dashboard.css'
-import React,{ useState } from 'react'
+import React,{ useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { Modal, Button } from 'react-bootstrap'
 import Blocs from './Blocs'
@@ -12,7 +12,7 @@ import Verification from './Verification'
 
 function Dashboard() {   
     const [selectedGraph, setSelectedGraph] = useState(-1)
-    const [selectedZone, setSelectedZone] = useState(1)
+    const [selectedZone, setSelectedZone] = useState(0)
     const [graph, setGraph] = useState(sampleGraph)
 
     const [hiddenBlocks, setHiddenBlocks] = useState()
@@ -20,28 +20,28 @@ function Dashboard() {
     const [show, setShow] = useState(false)
     const [showedit, setShowEdit] = useState(false)
     const [getid,setGetId] = useState()
-    const [dropDownId, setDropDownId] = useState();
+    const [menuId,setMenuId] = useState()
 
     const listId = (inputList.length > 0) ? inputList.length : 0   
     const handleClose = () => {setShow(false); setSelectedGraph(-1);}
     const handleCloseEdit =() =>{setShowEdit(false);setSelectedGraph(-1)}
     const handleShow = () => setShow(true)
-    const handleShowEdit = (id) => {setShowEdit(true); setGetId(id)}
-    const editShow = () => setShow(true)    
+    const handleShowEdit = (event,param) => {setShowEdit(true); setMenuId(event.target.id); setGetId(param);}  
     
 
     const [modal, setModal] = useState(false)
     const [modalTwo, setModalTwo] = useState(false)
-
+    const [funcUsed,setFuncUsed] = useState(false);
 
     const toggleModal = (e) => {
         setModal(!modal)
         setGetId(e)        
     }
 
-    const toggleModalTwo = (e) => {
+    const toggleModalTwo = (event,param) => {
         setModalTwo(!modalTwo)
-        setGetId(e)        
+        setGetId(param)        
+        setMenuId(event.target.id)   
     }
 
     const handleOnDragEnd = (result) => {
@@ -65,16 +65,40 @@ function Dashboard() {
     }
 
     const deleteFigOne = () => {   
-        let i = 1, ar = [], newdata=[], posi = inputList.indexOf(inputList[getid-1])
+        /*let i = 1, ar = [], newdata=[], posi = inputList.indexOf(inputList[getid-1])
 
         ar = inputList.splice(posi, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false})
         inputList.map(e => newdata.push(e))      
         setInputList(newdata)
-        setModalTwo(false)           
+        setModalTwo(false)*/         
+        let v=''
+        inputList.map((x,index)=>(x.id==getid) &&  ((v=index)))
+        let figOne = inputList[v].option1, figTwo = inputList[v].option2;
+        if(menuId === 'one')
+        {
+            if(inputList[v].option2==='')
+            {
+                inputList.splice(v,1,{id: getid, oneBlockVisi: true, twoBlockVisi: false, option: ''})
+                setInputList(inputList)
+                setModalTwo(false)
+            }
+            else
+            {
+                inputList.splice(v,1,{id: getid, oneBlockVisi: true, twoBlockVisi: false, option: figTwo})
+                setInputList(inputList)
+                setModalTwo(false)
+            }
+            
+        }
+        else
+        {
+            inputList.splice(v,1,{id: getid, oneBlockVisi: true, twoBlockVisi: false, option: figOne})
+            setInputList(inputList)
+            setModalTwo(false)
+        }
     }
 
-    const deleteOneFig = () => {    
-        listerFigures()
+    const deleteOneFig = () => {            
         deleteFigOne()
     } 
 
@@ -90,15 +114,26 @@ function Dashboard() {
     {   let v=''
         inputList.map((x,index)=>(x.id==getid) &&  ((v=index)))
         if(inputList[v].oneBlockVisi===true)
-        {
-            inputList.map((x, index) => (x.id===getid) && ( inputList.splice(index, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: option[selectedGraph]})));
-            handleCloseEdit(); 
+        {            
+            inputList[v].option=option[selectedGraph];
+            setInputList(inputList);
+            handleCloseEdit();
+            
         }
         else
         {
-            
-            console.log(dropDownId)
-
+            if(menuId==='one')
+            {
+                inputList[v].option1=option[selectedGraph];
+                setInputList(inputList);
+                handleCloseEdit();
+            }
+            else
+            {
+                inputList[v].option2=option[selectedGraph];
+                setInputList(inputList);
+                handleCloseEdit();
+            }            
         }    
         
            
@@ -121,8 +156,8 @@ function Dashboard() {
                                         {(provided,snapshot)=>(                                            
                                             <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} id="figs">                                               
                                                 {(list.oneBlockVisi) ? 
-                                                  <OneFigure option={list.option} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={ () => handleShowEdit(list.id)} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)}/> 
-                                                : <TwoFigures option1={list.option1} option2={list.option2} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} deletefunc={()=>toggleModalTwo(list.id)} editpopup={()=>handleShowEdit(list.id)} idFigure={list.id} idfigone={list.id} orderfunc={listerFigures} idfigtwo={list.id}/>                                                
+                                                  <OneFigure option={list.option} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={event=>handleShowEdit(event,list.id)} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)}/> 
+                                                : <TwoFigures option1={list.option1} option2={list.option2} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} openVerif={event=>toggleModalTwo(event,list.id)} editpopup={event=>handleShowEdit(event,list.id)} idFigure={list.id} idfigone={list.id}  idfigtwo={list.id}/>                                                
                                                 }                                                
                                             </li>                                            
                                         )}                                        

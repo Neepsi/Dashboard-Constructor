@@ -332,6 +332,7 @@ function Donnees({ selectedGraph, figTitle, setFigTitle, option }) {
         )}
 
         {selectedGraph !== -1 && option.map((x, index) => <div className='mt-2'>          
+
           {index === selectedGraph && 
             <div>
               <h4 className='text-center mt-3'>{figTitle}</h4>

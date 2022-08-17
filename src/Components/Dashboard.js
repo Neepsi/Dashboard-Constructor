@@ -1,5 +1,5 @@
 import '../styles/dashboard.css'
-import React,{ useState } from 'react'
+import React,{ useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { Modal, Button } from 'react-bootstrap'
 import Blocs from './Blocs'
@@ -20,20 +20,28 @@ function Dashboard() {
     const [inputList, setInputList] = useState([])
 
     const [show, setShow] = useState(false)
+    const [showedit, setShowEdit] = useState(false)
     const [getid,setGetId] = useState()
+    const [menuId,setMenuId] = useState()
 
-    const listId = (inputList.length > 0) ? inputList.length : 0 
-
-    const handleClose = () => {setShow(false); setSelectedGraph(-1)}
+    const listId = (inputList.length > 0) ? inputList.length : 0   
+    const handleClose = () => { setShow(false); setSelectedGraph(-1) }
+    const handleCloseEdit =() => { setShowEdit(false); setSelectedGraph(-1) }
     const handleShow = () => setShow(true)
-    const editShow = () => setShow(true)    
+    const handleShowEdit = (event, param) => { setShowEdit(true); setMenuId(event.target.id); setGetId(param) }  
     
+
     const [modal, setModal] = useState(false)
     const [modalTwo, setModalTwo] = useState(false)
+    const [funcUsed,setFuncUsed] = useState(false);
 
     const toggleModal = (e) => { setModal(!modal); setGetId(e) }
 
-    const toggleModalTwo = (e) => { setModalTwo(!modalTwo); setGetId(e) }
+    const toggleModalTwo = (event,param) => {
+        setModalTwo(!modalTwo)
+        setGetId(param)        
+        setMenuId(event.target.id)   
+    }
 
     const handleOnDragEnd = (result) => {
         const items = Array.from(inputList), [reorderedItem] = items.splice(result.source.index, 1)
@@ -47,25 +55,69 @@ function Dashboard() {
         setInputList(arr); setModal(false)
     }
 
-    const listerFigures = () => { let i = 1; inputList.map(e => e.id = i++) }
+    const deleteFigOne = () => {           
+        let pos = ''
 
-    const deleteFigOne = () => {   
-        let newdata=[]
-        inputList.map(e => newdata.push(e))      
-        setInputList(newdata); setModalTwo(false)           
+        inputList.map((x, index) => (x.id === getid) && ((pos = index)))
+
+        let figOne = inputList[pos].option1, figTwo = inputList[pos].option2;
+        if(menuId === 'one') {
+            if(inputList[pos].option2 === '') {
+                inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: ''})
+                setInputList(inputList)
+                setModalTwo(false)
+            }
+            else {
+                inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: figTwo})
+                setInputList(inputList)
+                setModalTwo(false)
+            }
+            
+        }
+        else {
+            inputList.splice(pos,1,{id: getid, oneBlockVisi: true, twoBlockVisi: false, option: figOne})
+            setInputList(inputList)
+            setModalTwo(false)
+        }
     }
 
-    const deleteOneFig = () => { listerFigures(); deleteFigOne() } 
+    const deleteOneFig = () => deleteFigOne() 
 
     const addBloc = () => {
         let newFig = (selectedZone === 1) ? {id: listId+1, oneBlockVisi: true, twoBlockVisi: false, option: option[selectedGraph]} : {id: listId+1, oneBlockVisi: false, twoBlockVisi: true, option1: option[selectedGraph], option2: ''}
         let newArr = inputList.concat(newFig)
         setInputList(newArr)
         setHiddenBlocks('none')
-
         handleClose()
     }
 
+    const editOnefig= () =>
+    {   
+        let pos = ''
+
+        inputList.map((x, index)=>(x.id === getid) &&  ((pos = index)))
+
+        if(inputList[pos].oneBlockVisi === true) {            
+            inputList[pos].option = option[selectedGraph]
+            setInputList(inputList)
+            handleCloseEdit()
+        }
+        else {
+            if(menuId === 'one') {
+                inputList[pos].option1 = option[selectedGraph];
+                setInputList(inputList);
+                handleCloseEdit();
+            }
+            else {
+                inputList[pos].option2 = option[selectedGraph];
+                setInputList(inputList);
+                handleCloseEdit();
+            }            
+        }    
+        
+           
+    }
+    
     (modal) ? document.body.classList.add('active-modal') : document.body.classList.remove('active-modal')
 
     return (            
@@ -83,8 +135,8 @@ function Dashboard() {
                                         {(provided,snapshot) => (                                            
                                             <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} id="figs">                                               
                                                 {(list.oneBlockVisi) ? 
-                                                  <OneFigure option={list.option} idFigureOne={list.id} idFigure={list.id} toggleverif={() => toggleModal(list.id)} editpopup={() => editShow()} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)}/> 
-                                                : <TwoFigures option1={list.option1} option2={list.option2} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} deletefunc={() => toggleModalTwo(list.id)} editpopup={() => editShow()} idFigure={list.id} idfigone={list.id} orderfunc={listerFigures} idfigtwo={list.id}/>                                                
+                                                  <OneFigure option={list.option} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={event=>handleShowEdit(event,list.id)} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)}/> 
+                                                : <TwoFigures option1={list.option1} option2={list.option2} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} openVerif={event=>toggleModalTwo(event,list.id)} editpopup={event=>handleShowEdit(event,list.id)} idFigure={list.id} idfigone={list.id}  idfigtwo={list.id}/>                                                
                                                 }                                                
                                             </li>                                            
                                         )}                                        
@@ -108,9 +160,24 @@ function Dashboard() {
                     </Modal.Body>
                 
                     <Modal.Footer>
-                        <Button variant='primary' onClick={addBloc} disabled={selectedZone === 0 || selectedGraph === -1 ? true : false}>Ajouter bloc</Button>                       
+                        <Button variant='primary' onClick={addBloc}>Ajouter bloc</Button>                    
                     </Modal.Footer>
-            </Modal>                                              
+            </Modal>
+
+            <Modal show={showedit} onHide={handleCloseEdit} scrollable={true} centered size='xl'>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Paramètres du bloc</Modal.Title>
+                    </Modal.Header>      
+
+                    <Modal.Body className='modal-scroll'>
+                        <AddBloc option={option} selectedZone={selectedZone} setSelectedZone={setSelectedZone} graph={graph} selectedGraph={selectedGraph} setSelectedGraph={setSelectedGraph} />
+                    </Modal.Body>
+                
+                    <Modal.Footer>
+                        <Button variant='primary' onClick={editOnefig}>Modifier</Button>                    
+                    </Modal.Footer>
+            </Modal>
+                                                     
         </div>
     )
 }

@@ -6,7 +6,7 @@ import React,{ useState, useRef, useEffect } from 'react'
 import EChartsReact from 'echarts-for-react'
 import empty_state from '../images/empty_state.png'
 
-function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfunc, editpopup, option1, option2 }) {  
+function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfunc, editpopup, option1, option2,openVerif }) {  
     const [open, setOpen] = useState(false)
     const [openn, setOpenn] = useState(false)
 
@@ -30,21 +30,28 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
     const DropdownMenu = (props) => {           
         const DropdownItem = (props) => {               
             return(
-                <div className='menu-item'>
+                <div className='menu-item' id={props.id_menu}>
                     <img src={props.name} id='img-test'/> {props.children}                
                 </div>
             )           
         }
 
+<<<<<<< HEAD
         const handleClick = () => { orderfunc(); deletefunc() }
+=======
+        const handleClick = () => {   
+            orderfunc()
+            deletefunc()
+        }
+>>>>>>> f20fd47e462c205efd3489bd2375264c10b25fad
 
         return(
             <div className='dropdownmenu'>
-                <div onClick={() => handleClick()}>
-                    <DropdownItem name={delete_icon}>Supprimer</DropdownItem>
+                <div onClick={openVerif}>
+                    <DropdownItem name={delete_icon} id_menu={props.num}>Supprimer</DropdownItem>
                 </div>
                 <div onClick={editpopup}>
-                    <DropdownItem name={edit_icon}>Modifier</DropdownItem>
+                    <DropdownItem name={edit_icon} id_menu={props.num}>Modifier</DropdownItem>
                 </div>                               
             </div>
         )       
@@ -59,7 +66,7 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
                     <div className='me-5'>
                             <EChartsReact option={option1} />
                         </div>
-                        {open && (<DropdownMenu id={'idFigone'}>{!open} </DropdownMenu>)}
+                        {open && (<DropdownMenu id={'idFigone'} num='one'>{!open} </DropdownMenu>)}
                     </div>
                 </div>
 
@@ -76,7 +83,7 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
                                 <div className='me-5'>
                                     <EChartsReact option={option2} />
                                 </div>}
-                        {openn && (<DropdownMenu id={'idFigtwo'}>{!openn}</DropdownMenu>)}                 
+                        {openn && (<DropdownMenu id={'idFigtwo'} num='two'>{!openn}</DropdownMenu>)}                 
                     </div>                      
                 </div>             
             </div>

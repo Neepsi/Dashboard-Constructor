@@ -1,10 +1,11 @@
-import '../styles/block.css'
-import three_dots from '../images/three_dots.png'
-import delete_icon from '../images/delete_icon.png'
-import edit_icon from '../images/edit_icon.png'
-import { useState, useRef, useEffect } from 'react'
 import React from 'react'
+import '../styles/block.css'
 import EChartsReact from 'echarts-for-react'
+import edit_icon from '../images/edit_icon.png'
+import three_dots from '../images/three_dots.png'
+import empty_state from '../images/empty_state.png'
+import delete_icon from '../images/delete_icon.png'
+import { useState, useRef, useEffect } from 'react'
 
 function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option }) {  
     const [open, setOpen] = useState(false)
@@ -39,16 +40,22 @@ function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option }) {
             </div>
         )     
     }
-
     return(    
         <div className='container mb-5' id={'subFig'+idFigure}>
             <div className='row'>   
                 <div className={`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} style={{height:'340px'}}>
                     <div ref={menuRef}>
                         <img src={three_dots} id='threedot-icon' onClick={() => setOpen(!open)} />
+                        {option === '' ?     
+                            <>                   
+                                <img src={empty_state} style={{maxWidth:'100%', maxHeight:'50%', display: 'block', marginLeft:'auto', marginRight:'auto', height: '200px'}}/>
+                                <div className='badge text-wrap text-dark position-absolute bottom-0 start-50 translate-middle-x' id='divEmptyStateTwo'>
+                                    <p className='fs-5 fw-normal' id='texxt'>Aucune donnée n’est disponible.</p>
+                                </div> 
+                            </> :
                         <div className='me-5'>
                             <EChartsReact option={option} />
-                        </div>
+                        </div>}
                         {open && (<DropdownMenu></DropdownMenu>)} 
                     </div>                                                                                                                                         
                 </div>                              

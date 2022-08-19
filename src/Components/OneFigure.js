@@ -12,17 +12,11 @@ function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option }) {
     let menuRef = useRef()
 
     useEffect(() => {
-        let handler = (event) => {
-            if(!menuRef.current.contains(event.target)) {
-                setOpen(false)
-            }
-        }
+        let handler = (event) => { if(!menuRef.current.contains(event.target)) setOpen(false) }
 
         document.addEventListener('mousedown', handler)
         
-        return () => {
-            document.removeEventListener('mousedown', handler)
-        }
+        return () => { document.removeEventListener('mousedown', handler) }
     })
 
     const DropdownMenu = () => {

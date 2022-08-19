@@ -17,7 +17,7 @@ function Graphe({ graph, selectedGraph, setSelectedGraph, setFigTitle }) {
                         <div className='card mb-3 card-input' style={{maxWidth: 12+'rem'}}>
                             {g.src ? <img className='card-img-top mt-4' src={ require(`../images/${g.src}`) } height='50px' style={{ objectFit: 'scale-down' }} /> : <img className='card-img-top mt-4' src={ require('../images/blank.png') } height='50px' style={{ objectFit: 'scale-down' }} /> }
                             <div className='card-body'>
-                                <p className='card-text text-center card-text'>{g.name}</p>                           
+                                <p className='card-text text-center lh-1'>{g.name}</p>                     
                             </div>                    
                         </div>
                     </label>

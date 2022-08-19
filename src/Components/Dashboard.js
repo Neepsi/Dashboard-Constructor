@@ -30,10 +30,8 @@ function Dashboard() {
     const handleShow = () => setShow(true)
     const handleShowEdit = (event, param) => { setShowEdit(true); setMenuId(event.target.id); setGetId(param) }  
     
-
     const [modal, setModal] = useState(false)
     const [modalTwo, setModalTwo] = useState(false)
-    const [funcUsed,setFuncUsed] = useState(false);
 
     const toggleModal = (e) => { setModal(!modal); setGetId(e) }
 
@@ -75,7 +73,7 @@ function Dashboard() {
             
         }
         else {
-            inputList.splice(pos,1,{id: getid, oneBlockVisi: true, twoBlockVisi: false, option: figOne})
+            inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: figOne})
             setInputList(inputList)
             setModalTwo(false)
         }
@@ -91,11 +89,10 @@ function Dashboard() {
         handleClose()
     }
 
-    const editOnefig= () =>
-    {   
+    const editOnefig = () => {   
         let pos = ''
 
-        inputList.map((x, index)=>(x.id === getid) &&  ((pos = index)))
+        inputList.map((x, index) => (x.id === getid) &&  ((pos = index)))
 
         if(inputList[pos].oneBlockVisi === true) {            
             inputList[pos].option = option[selectedGraph]
@@ -104,18 +101,16 @@ function Dashboard() {
         }
         else {
             if(menuId === 'one') {
-                inputList[pos].option1 = option[selectedGraph];
-                setInputList(inputList);
-                handleCloseEdit();
+                inputList[pos].option1 = option[selectedGraph]
+                setInputList(inputList)
+                handleCloseEdit()
             }
             else {
-                inputList[pos].option2 = option[selectedGraph];
-                setInputList(inputList);
-                handleCloseEdit();
+                inputList[pos].option2 = option[selectedGraph]
+                setInputList(inputList)
+                handleCloseEdit()
             }            
-        }    
-        
-           
+        }      
     }
     
     (modal) ? document.body.classList.add('active-modal') : document.body.classList.remove('active-modal')
@@ -135,8 +130,8 @@ function Dashboard() {
                                         {(provided,snapshot) => (                                            
                                             <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} id="figs">                                               
                                                 {(list.oneBlockVisi) ? 
-                                                  <OneFigure option={list.option} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={event=>handleShowEdit(event,list.id)} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)}/> 
-                                                : <TwoFigures option1={list.option1} option2={list.option2} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} openVerif={event=>toggleModalTwo(event,list.id)} editpopup={event=>handleShowEdit(event,list.id)} idFigure={list.id} idfigone={list.id}  idfigtwo={list.id}/>                                                
+                                                  <OneFigure option={list.option} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={event=>handleShowEdit(event,list.id)} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)} /> 
+                                                : <TwoFigures option1={list.option1} option2={list.option2} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} openVerif={event=>toggleModalTwo(event,list.id)} editpopup={event=>handleShowEdit(event,list.id)} idFigure={list.id} idfigone={list.id}  idfigtwo={list.id} />                                                
                                                 }                                                
                                             </li>                                            
                                         )}                                        
@@ -160,7 +155,7 @@ function Dashboard() {
                     </Modal.Body>
                 
                     <Modal.Footer>
-                        <Button variant='primary' onClick={addBloc}>Ajouter bloc</Button>                    
+                        <Button variant='primary' disabled={selectedGraph === -1 || selectedZone === 0 ? true : false} onClick={addBloc}>Ajouter bloc</Button>                    
                     </Modal.Footer>
             </Modal>
 

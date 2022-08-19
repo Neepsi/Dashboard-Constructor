@@ -36,15 +36,6 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
             )           
         }
 
-<<<<<<< HEAD
-        const handleClick = () => { orderfunc(); deletefunc() }
-=======
-        const handleClick = () => {   
-            orderfunc()
-            deletefunc()
-        }
->>>>>>> f20fd47e462c205efd3489bd2375264c10b25fad
-
         return(
             <div className='dropdownmenu'>
                 <div onClick={openVerif}>

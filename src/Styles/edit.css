@@ -8,7 +8,7 @@ input[type='radio'][name='cardGroup'] { display:none; }
     margin-bottom: 6px;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
-    background-color:#f7f7f7;
+    background-color: #f7f7f7;
     width: 10em;
     text-align: center;
 }
@@ -18,7 +18,7 @@ input[type='radio'][name='cardGroup'] { display:none; }
 }
 
 .card-text {
-    color: #869ab8; 
+    color: #869ab8;
 }
 
 .card-input:hover {

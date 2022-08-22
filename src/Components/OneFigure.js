@@ -7,7 +7,7 @@ import empty_state from '../images/empty_state.png'
 import delete_icon from '../images/delete_icon.png'
 import { useState, useRef, useEffect } from 'react'
 
-function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option, selectedGraph }) {  
+function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option, graph }) {  
     const [open, setOpen] = useState(false)
     let menuRef = useRef()
 
@@ -53,10 +53,10 @@ function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option, selected
                                 <div className='badge text-wrap text-dark position-absolute bottom-0 start-50 translate-middle-x' id='divEmptyStateTwo'>
                                     <p className='fs-5 fw-normal' id='texxt'>Aucune donnée n’est disponible.</p>
                                 </div> 
-                            </> :
-                            <div className='me-5'>
-                                <EChartsReact option={option} />
-                            </div>}
+                            </> : <div className='me-5' id='oneFigEdit'> 
+                                    <EChartsReact option={option} notMerge={true} /> 
+                                </div>
+                            }
                         {open && (<DropdownMenu></DropdownMenu>)} 
                     </div>                                                                                                                                         
                 </div>                              

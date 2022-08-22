@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form'
 import EChartsReact from 'echarts-for-react'
 import data from '../data/data_generalites.json'
 
-function Donnees({ selectedGraph, figTitle, setFigTitle, option }) {
+function Donnees({ selectedGraph, figTitle, setFigTitle, changeOption }) {
   let countElement = []
 
   const [dataSelection, setDataSelection] = useState(tempData)
@@ -14,9 +14,9 @@ function Donnees({ selectedGraph, figTitle, setFigTitle, option }) {
 
   const handleTitle = (e) => setFigTitle(e.target.value)
 
-  const handleSelect = (e) => {  
+  const countParams = (param) => {
     for(const key in count) delete count[key]
-    countElement = Array.from(data.map(x => x[e.target.value])) 
+    countElement = Array.from(data.map(x => x[param])) 
 
     for(const element of countElement) {
       if(count[element]) count[element] += 1
@@ -28,7 +28,7 @@ function Donnees({ selectedGraph, figTitle, setFigTitle, option }) {
     const optionTest = [
       {
         grid: { top: 40, right: 8, bottom: 24, left: 40},
-        xAxis: { data: Object.keys(count) }, yAxis: {},
+        xAxis: { }, yAxis: { data: Object.keys(count) },
         series: [ { symbolSize: 20, data: Object.values(count), type: 'scatter' } ],
         tooltip: { trigger: 'axis' }
       },
@@ -62,8 +62,12 @@ function Donnees({ selectedGraph, figTitle, setFigTitle, option }) {
         series: [ { type: 'treemap', data: [] } ]
       }
     ]
-    
+
     setNewOption(optionTest)
+  }
+
+  const handleSelect = (e) => {  
+    countParams(e.target.value)
   }
 
   return (
@@ -74,16 +78,17 @@ function Donnees({ selectedGraph, figTitle, setFigTitle, option }) {
           <div key={param} className='col-sm-3'>         
             { (typeof dataSelection['generalites'][selectedGraph][param] === 'object') && (!Array.isArray(dataSelection['generalites'][selectedGraph][param][index]))
               ? <FloatingLabel key={param} controlId='floatingInput' label={(param === 'x' || param === 'y') ? 'Axis '+param : param} className='mb-3'>
-                  <Form.Select onChange={(e) => handleSelect(e)} className='w-100'>
+                { (param === 'Palette couleur') ? <Form.Control type='text' maxLength={100} placeholder={param} /> :
+                  <Form.Select onChange={(e) => handleSelect(e)} onClick={() => changeOption(newOption[selectedGraph])} className='w-100'>
                     {dataSelection['generalites'][selectedGraph][param].map(x => <option key={x} value={x}>{x}</option>)}
-                  </Form.Select>
+                  </Form.Select> }
                 </FloatingLabel> : null
             } 
-
+            
             { (typeof dataSelection['generalites'][selectedGraph][param] === 'object') && (Array.isArray(dataSelection['generalites'][selectedGraph][param][index]))
               ? dataSelection['generalites'][selectedGraph][param].map((x, index) => 
                   <FloatingLabel key={param+index} controlId='floatingInput' label={(param === 'x' || param === 'y') ? 'Axis '+param : param} className='mb-3'>
-                    <Form.Select onChange={(e) => handleSelect(e)} className='w-100 mb-3'>
+                    <Form.Select onChange={(e) => handleSelect(e)} onClick={() => changeOption(newOption[selectedGraph])} className='w-100 mb-3'>
                       {x.map(x => <option value={x}>{x}</option>)}
                     </Form.Select>
                   </FloatingLabel>) : null
@@ -93,17 +98,18 @@ function Donnees({ selectedGraph, figTitle, setFigTitle, option }) {
               <FloatingLabel key={param+index} controlId='floatingInput' label={(param === 'x' || param === 'y') ? 'Axis '+param : param} className='mb-3'>
                 <Form.Control type='text' maxLength={100} placeholder={param} onChange={(e) => (param === 'Titre') ? handleTitle(e) : null} /> 
               </FloatingLabel>
-            }      
+            }  
           </div>
         )}
 
-        {selectedGraph !== -1 && option.map((x, index) => <div className='mt-2'>          
-          {index === selectedGraph && 
-            <div>
-              <h4 className='text-center mt-3'>{figTitle}</h4>
-              {newOption[0] && <EChartsReact option={newOption[selectedGraph]} style={{height: '500px'} } /> }
-            </div>}
+      {selectedGraph !== -1 && newOption.map((x, index) => <div className='mt-2'>          
+        {index === selectedGraph && 
+          <div>
+            <h4 className='text-center mt-3'>{figTitle}</h4>
+            <EChartsReact option={newOption[selectedGraph]} style={{height: '500px'} } />
+          </div>}
         </div>)}
+
       </div>
     </div>
   )
@@ -111,10 +117,10 @@ function Donnees({ selectedGraph, figTitle, setFigTitle, option }) {
 
 const tempData = {
   "generalites": [
-    {name: 'scatter', x: ['date dépot', 'date traitement'], y: input.onglets[0].dimesions, 'Mode': ['Lines', 'Markers', 'Lines + Markers'], 'Titre': '', 'Couleur': '', 'Titre figure': '', 'Libelle x': '', 'Libelle y': ''},
+    {name: 'scatter', x: ['Date depôt', 'Date traitement'], y: input.onglets[0].dimesions, 'Mode': ['Lines', 'Markers', 'Lines + Markers'], 'Titre': '', 'Couleur': '', 'Titre figure': '', 'Libelle x': '', 'Libelle y': ''},
     {name: 'bar', x: input.onglets[0].dimesions, y: input.onglets[0].mesures, 'Titre': '', 'Couleur': '', 'Libelle figure': '', 'Libelle x': '', 'Libelle y': '', 'Libelle couleur': '', 'Palette couleur': []},
     {name: 'bar_horizontal', x: input.onglets[0].mesures, y: input.onglets[0].dimesions, 'Titre': '', 'Couleur': '', 'Libelle figure': '', 'Libelle x': '', 'Libelle y': '', 'Libelle couleur': '', 'Palette couleur': []},
-    {name: 'pie', 'Valeur': input.onglets[0].mesures, 'Nom': input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), 'Titre': '', 'Libelle valeur': '', 'Libelle nom': '', 'Palette coleur': []},
+    {name: 'pie', 'Valeur': input.onglets[0].mesures, 'Nom': input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), 'Titre': '', 'Libelle valeur': '', 'Libelle nom': '', 'Palette couleur': []},
     {name: 'sunburst', 'Path': [input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')], 'Valeur': input.onglets[0].mesures, 'Titre': '', 'Libelle valeur': '', 'Titre path': [], 'Palette couleur': []},
     {name: 'treemap', 'Path': [input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')], 'Valeur': input.onglets[0].mesures, 'Titre': '', 'Palette couleur': []},
     {name: 'table', 'Colonne': input.onglets[0].dimesions, 'Mesure': input.onglets[0].mesures, Titre: ''},
@@ -123,7 +129,7 @@ const tempData = {
   "delais": [
     {name: 'scatter', x: ['date dépot', 'date traitement'], y: input.onglets[1].dimesions, 'Titre': '', 'Couleur': '', 'Titre figure': '', 'Libelle x': '', 'Libelle y': ''},
     {name: 'bar', x: input.onglets[1].dimesions, y: input.onglets[1].mesures, 'Titre': '', 'Couleur': '', 'Libelle figure': '', 'Libelle x': '', 'Libelle y': '', 'Libelle couleur': '', 'Palette couleur': []},
-    {name: 'bar_horizontal', x: input.onglets[1].mesures, y: input.onglets[1].dimesions, 'Titre': '', 'Couleur': '', 'Libelle figure': '', 'Libelle x': '', 'Libelle y': '', 'Libelle couleur': '', 'Palette coleur': []},
+    {name: 'bar_horizontal', x: input.onglets[1].mesures, y: input.onglets[1].dimesions, 'Titre': '', 'Couleur': '', 'Libelle figure': '', 'Libelle x': '', 'Libelle y': '', 'Libelle couleur': '', 'Palette couleur': []},
     {name: 'pie', 'Valeur': input.onglets[1].mesures, 'Nom': input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), 'Titre': '', 'Libelle valeur': '', 'Libelle nom': '', 'Palette coleur': []},
     {name: 'sunburst', 'Path': [input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')], 'Valeur': input.onglets[1].mesures, 'Titre': '', 'Libelle valeur': '', 'Titre path': [], 'Palette couleur': []},
     {name: 'treemap', 'Path': [input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')], 'Valeur': input.onglets[1].mesures, 'Titre': '', 'Palette couleur': []},

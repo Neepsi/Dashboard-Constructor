@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Graphe({ graph, selectedGraph, setSelectedGraph, setFigTitle }) {
+function Graphe({ graph, selectedGraph, setSelectedGraph, setFigTitle, graphCount }) {
     const handleChange = (i) => { 
         setFigTitle('')
         setSelectedGraph(selectedGraph = i)
@@ -13,7 +13,7 @@ function Graphe({ graph, selectedGraph, setSelectedGraph, setFigTitle }) {
             {graph.map((g, index) =>                     
                 <div key={g.name} className='col-sm-2'>  
                     <label className='card-label'>
-                        <input name='cardGroup' type='radio' onChange={() => handleChange(index)} />                
+                        <input name='cardGroup' type='radio' onChange={() => handleChange(index)} onSelect={() => graphCount(graph.length)} />                
                         <div className='card mb-3 card-input' style={{maxWidth: 12+'rem'}}>
                             {g.src ? <img className='card-img-top mt-4' src={ require(`../images/${g.src}`) } height='50px' style={{ objectFit: 'scale-down' }} /> : <img className='card-img-top mt-4' src={ require('../images/blank.png') } height='50px' style={{ objectFit: 'scale-down' }} /> }
                             <div className='card-body'>

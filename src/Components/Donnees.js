@@ -10,292 +10,61 @@ function Donnees({ selectedGraph, figTitle, setFigTitle, option }) {
 
   const [dataSelection, setDataSelection] = useState(tempData)
   const [count, setCount] = useState({})
+  const [newOption, setNewOption] = useState([])
 
-  const handleTitle = (e) => setFigTitle(e.target.value) 
+  const handleTitle = (e) => setFigTitle(e.target.value)
 
   const handleSelect = (e) => {  
-    for(const key in count) delete count[key]    
+    for(const key in count) delete count[key]
     countElement = Array.from(data.map(x => x[e.target.value])) 
 
     for(const element of countElement) {
       if(count[element]) count[element] += 1
       else count[element] = 1
     }
-    
+
     setCount(count)
 
-    console.log(count)
-    console.log(optionTest)
+    const optionTest = [
+      {
+        grid: { top: 40, right: 8, bottom: 24, left: 40},
+        xAxis: { data: Object.keys(count) }, yAxis: {},
+        series: [ { symbolSize: 20, data: Object.values(count), type: 'scatter' } ],
+        tooltip: { trigger: 'axis' }
+      },
+      {
+        grid: { top: 40, right: 8, bottom: 24, left: 40 },
+        xAxis: { type: 'category', data: Object.keys(count) }, yAxis: { type: 'value' },
+        series: [ { data: Object.values(count), type: 'bar', smooth: true } ],
+        tooltip: { trigger: 'axis' }
+      },
+      {
+        grid: { top: 40, right: 25, bottom: 24, left: 100 },
+        yAxis: { type: 'category', data: Object.keys(count) }, xAxis: { type: 'value' },
+        series: [ { data: Object.values(count), type: 'bar', smooth: true } ],
+        tooltip: { trigger: 'axis' }
+      },
+      {
+        tooltip: { trigger: 'item' },
+        legend: { orient: 'vertical', left: 'left' },
+        series: [ {
+            name: 'Nombre de demandes',
+            type: 'pie',
+            radius: '50%',
+            data: Object.keys(count).map(x => ({ value: count[x], name: x }) ),
+            emphasis: { itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' } }
+          } ]
+      },
+      {
+        series: { type: 'sunburst', data: Object.keys(count).map(x => ({ value: count[x], name: x }) ), radius: [ 0, '90%' ], label: { rotate: 'radial' } }
+      },
+      {
+        series: [ { type: 'treemap', data: [] } ]
+      }
+    ]
+    
+    setNewOption(optionTest)
   }
-
-  const optionTest = [
-    {
-      "grid": {
-        "top": 40,
-        "right": 8,
-        "bottom": 24,
-        "left": 40
-      },
-      "xAxis": {
-        data: Object.keys(count)
-      },
-      "yAxis": {},
-      "series": [
-        {
-          "symbolSize": 20,
-          "data": Object.values(count),
-          "type": "scatter"
-        }
-      ],
-      "tooltip": {
-        "trigger": "axis"
-      }
-    },
-    {
-      "grid": {
-        "top": 40,
-        "right": 8,
-        "bottom": 24,
-        "left": 40
-      },
-      "xAxis": {
-        "type": "category",
-        "data": [
-          "Mon",
-          "Tue",
-          "Wed",
-          "Thu",
-          "Fri",
-          "Sat",
-          "Sun"
-        ]
-      },
-      "yAxis": {
-        "type": "value"
-      },
-      "series": [
-        {
-          "data": [
-            820,
-            932,
-            901,
-            934,
-            1290,
-            1330,
-            1320,
-            1400,
-            1500,
-            1700,
-            2000,
-            800
-          ],
-          "type": "bar",
-          "smooth": true
-        }
-      ],
-      "tooltip": {
-        "trigger": "axis"
-      }
-    },
-    {
-      "grid": {
-        "top": 40,
-        "right": 25,
-        "bottom": 24,
-        "left": 40
-      },
-      "yAxis": {
-        "type": "category",
-        "data": [
-          "Mon",
-          "Tue",
-          "Wed",
-          "Thu",
-          "Fri",
-          "Sat",
-          "Sun"
-        ]
-      },
-      "xAxis": {
-        "type": "value"
-      },
-      "series": [
-        {
-          "data": [
-            820,
-            932,
-            901,
-            934,
-            1290,
-            1330,
-            1320,
-            1400,
-            1500,
-            1700,
-            2000,
-            800
-          ],
-          "type": "bar",
-          "smooth": true
-        }
-      ],
-      "tooltip": {
-        "trigger": "axis"
-      }
-    },
-    {
-      "tooltip": {
-        "trigger": "item"
-      },
-      "legend": {
-        "orient": "vertical",
-        "left": "left"
-      },
-      
-      "series": [
-        {
-          "name": "Access From",
-          "type": "pie",
-          "radius": "50%",
-          "data": [
-            {
-              "value": 1048,
-              "name": "Search Engine"
-            },
-            {
-              "value": 735,
-              "name": "Direct"
-            },
-            {
-              "value": 580,
-              "name": "Email"
-            },
-            {
-              "value": 484,
-              "name": "Union Ads"
-            },
-            {
-              "value": 300,
-              "name": "Video Ads"
-            }
-          ],
-          "emphasis": {
-              "itemStyle": {
-              "shadowBlur": 10,
-              "shadowOffsetX": 0,
-              "shadowColor": "rgba(0, 0, 0, 0.5)"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "series": {
-        "type": "sunburst",
-        "data": [
-          {
-            "name": "Grandpa",
-            "children": [
-              {
-                "name": "Uncle Leo",
-                "value": 15,
-                "children": [
-                  {
-                    "name": "Cousin Jack",
-                    "value": 2
-                  },
-                  {
-                    "name": "Cousin Mary",
-                    "value": 5,
-                    "children": [
-                      {
-                        "name": "Jackson",
-                        "value": 2
-                      }
-                    ]
-                  },
-                  {
-                    "name": "Cousin Ben",
-                    "value": 4
-                  }
-                ]
-              },
-              {
-                "name": "Father",
-                "value": 10,
-                "children": [
-                  {
-                    "name": "Me",
-                    "value": 5
-                  },
-                  {
-                    "name": "Brother Peter",
-                    "value": 1
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "Nancy",
-            "children": [
-              {
-                "name": "Uncle Nike",
-                "children": [
-                  {
-                    "name": "Cousin Betty",
-                    "value": 1
-                  },
-                  {
-                    "name": "Cousin Jenny",
-                    "value": 2
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        "radius": [
-          0,
-          "90%"
-        ],
-        "label": {
-          "rotate": "radial"
-        }
-      }
-    },
-    {
-      "series": [
-        {
-          "type": "treemap",
-          "data": [
-            {
-              "name": "nodeA",
-              "value": 10,
-              "children": [
-                {
-                  "name": "nodeAa",
-                  "value": 4
-                },
-                {
-                  "name": "nodeAb",
-                  "value": 6
-                }
-              ]
-            },
-            {
-              "name": "nodeB",
-              "value": 20,
-              "children": [
-                {
-                  "name": "nodeBa",
-                  "value": 20,
-                  "children": [
-                    {
-                      "name": "nodeBa1",
-                      "value": 20
-                    }
-  ]}]}]}]}]
 
   return (
     <div className='d-flex'>
@@ -314,7 +83,7 @@ function Donnees({ selectedGraph, figTitle, setFigTitle, option }) {
             { (typeof dataSelection['generalites'][selectedGraph][param] === 'object') && (Array.isArray(dataSelection['generalites'][selectedGraph][param][index]))
               ? dataSelection['generalites'][selectedGraph][param].map((x, index) => 
                   <FloatingLabel key={param+index} controlId='floatingInput' label={(param === 'x' || param === 'y') ? 'Axis '+param : param} className='mb-3'>
-                    <Form.Select className='w-100 mb-3'>
+                    <Form.Select onChange={(e) => handleSelect(e)} className='w-100 mb-3'>
                       {x.map(x => <option value={x}>{x}</option>)}
                     </Form.Select>
                   </FloatingLabel>) : null
@@ -329,11 +98,10 @@ function Donnees({ selectedGraph, figTitle, setFigTitle, option }) {
         )}
 
         {selectedGraph !== -1 && option.map((x, index) => <div className='mt-2'>          
-
           {index === selectedGraph && 
             <div>
               <h4 className='text-center mt-3'>{figTitle}</h4>
-              <EChartsReact option={optionTest[0]} style={{height: '500px'} } />
+              {newOption[0] && <EChartsReact option={newOption[selectedGraph]} style={{height: '500px'} } /> }
             </div>}
         </div>)}
       </div>

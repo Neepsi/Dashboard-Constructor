@@ -34,7 +34,7 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
                     <img src={props.name} id='img-test'/> {props.children}                
                 </div>
             )           
-        }        
+        }
 
         return(
             <div className='dropdownmenu'>

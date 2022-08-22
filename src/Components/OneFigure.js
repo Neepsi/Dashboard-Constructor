@@ -7,7 +7,7 @@ import empty_state from '../images/empty_state.png'
 import delete_icon from '../images/delete_icon.png'
 import { useState, useRef, useEffect } from 'react'
 
-function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option }) {  
+function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option, selectedGraph }) {  
     const [open, setOpen] = useState(false)
     let menuRef = useRef()
 
@@ -40,6 +40,7 @@ function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option }) {
             </div>
         )     
     }
+
     return(    
         <div className='container mb-5' id={'subFig'+idFigure}>
             <div className='row'>   
@@ -53,9 +54,9 @@ function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option }) {
                                     <p className='fs-5 fw-normal' id='texxt'>Aucune donnée n’est disponible.</p>
                                 </div> 
                             </> :
-                        <div className='me-5'>
-                            <EChartsReact option={option} />
-                        </div>}
+                            <div className='me-5'>
+                                <EChartsReact option={option} />
+                            </div>}
                         {open && (<DropdownMenu></DropdownMenu>)} 
                     </div>                                                                                                                                         
                 </div>                              

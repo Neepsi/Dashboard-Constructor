@@ -44,7 +44,7 @@ function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option, graph })
     return(    
         <div className='container mb-5' id={'subFig'+idFigure}>
             <div className='row'>   
-                <div className={`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} style={{height:'340px'}}>
+                <div className={`col bg-secondary m-2 rounded shadow-sm p-3 mb-3 ${bgColor}`} style={{height:'400px'}}>
                     <div ref={menuRef}>
                         <img src={three_dots} id='threedot-icon' onClick={() => setOpen(!open)} />
                         {option === '' ?     

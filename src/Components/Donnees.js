@@ -4,6 +4,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Form from 'react-bootstrap/Form'
 import EChartsReact from 'echarts-for-react'
 import data from '../data/data_generalites.json'
+import React from 'react';
 
 function Donnees({ selectedGraph, figTitle, setFigTitle, changeOption }) {
   let countElement = []

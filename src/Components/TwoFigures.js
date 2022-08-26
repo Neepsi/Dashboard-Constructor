@@ -74,7 +74,7 @@ function TwoFigures({ bgColor, idFigure, idfigone, idfigtwo, deletefunc, orderfu
                                 <div className='me-5'>
                                     <EChartsReact option={option2} />
                                 </div>}
-                        {openn && (<DropdownMenu id={'idFigtwo'} num='two'>{!openn}</DropdownMenu>)}                 
+                        {openn && (<DropdownMenu id={'idFigtwo'} num='two'>{!openn}</DropdownMenu>)}
                     </div>                      
                 </div>             
             </div>

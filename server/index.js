@@ -173,72 +173,10 @@ const generateData = (graph,id) =>
             {
                 data= treemap(id,graph['option']['select'].pathOne,graph['option']['select'].pathTwo,graph['option']['select'].pathThree,graph['option']['select'].valeur,graph['option']['title'].text);
                  break;
-            }                    
+            }                   
     }
     return data;
 }
-
-
-/*app.post('/addBloc', (req, res)=>{
-    const data = req.body.data
-    const route = req.body.route
-    const date = new Date()
-    const fs = require('fs')
-
-    
-    let day = date.getDate();
-    let month = date.getMonth()+1;
-    let year = date.getFullYear();
-    let currentDate = year+"-"+month+"-"+day;
-
-    let fig_gen = "",fig_del=""
-    let fig_genJson = "",fig_delJson=""    
-
-    if(route=== "generalites")
-    {
-        let v = [],i=1    
-        data.map(x=>v.push(generateData(x,i++)))
-         fig_gen = data;
-         fig_genJson = v;
-         let gen_data = {figures_generalites : fig_genJson , figures_delais : fig_delJson}
-        let gen_data_ = {figures_generalites : fig_gen , figures_delais : fig_del}
-        db.query(`DELETE FROM figures`);
-        db.query(`INSERT INTO figures (graph_data,dash_params,modification_date) VALUES('${JSON.stringify(gen_data_,null," ")}','${JSON.stringify(gen_data,null," ")}','${currentDate}')`,
-        (err, result) => {
-            if(err) console.log(err)
-            else res.send('Data inserted')
-        }        
-    )
-    console.log(gen_data_)
-    /*fs.writeFile('../src/data/dash_params.json',JSON.stringify(gen_data,null, " "),function(err){
-        if(err) throw err;
-        console.log('fichier cree')
-    })*/
-   /* }
-    else
-    {
-        let v=[],i=1
-        data.map(x=>v.push(generateData(x,i++)))
-
-        fig_del =  data;
-        fig_delJson = v;
-
-        let gen_data = {figures_generalites : fig_genJson , figures_delais : fig_delJson}
-        let gen_data_ = {figures_generalites : fig_gen , figures_delais : fig_del}
-
-        db.query(`DELETE FROM figures`);
-        db.query(`INSERT INTO figures (graph_data,dash_params,modification_date) VALUES('${JSON.stringify(gen_data_,null," ")}','${JSON.stringify(gen_data,null," ")}','${currentDate}')`,
-        (err, result) => {
-            if(err) console.log(err)
-            else res.send('Data inserted')
-        }        
-    )
- 
-    /*fs.writeFile('../src/data/dash_params.json',JSON.stringify(gen_data,null, " "),function(err){
-        if(err) throw err;
-        console.log('fichier cree')
-    })*/
-
 
 const createDashParams =()=>
 {

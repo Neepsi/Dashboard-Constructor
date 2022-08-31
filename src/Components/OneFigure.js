@@ -6,8 +6,10 @@ import three_dots from '../images/three_dots.png'
 import empty_state from '../images/empty_state.png'
 import delete_icon from '../images/delete_icon.png'
 import { useState, useRef, useEffect } from 'react'
+import Table from './Table'
+import Indicator from './Indicator'
 
-function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option, graph, selectedGraph}) {  
+function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option, selectedGraph }) {  
     const [open, setOpen] = useState(false)
     let menuRef = useRef()
 
@@ -44,7 +46,7 @@ function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option, graph, s
     return(    
         <div className='container mb-5' id={'subFig'+idFigure}>
             <div className='row'>   
-                <div className={`col bg-secondary m-2 position-relative rounded shadow-sm p-3 mb-3 ${bgColor}`} style={{height:(selectedGraph === 3) ? '300px' : '400px'}}>
+                <div className={`col bg-secondary m-2 position-relative rounded shadow-sm p-3 mb-3 ${bgColor}`} style={{height: selectedGraph === 7 ? '350px' : '400px'}}>
                     <div ref={menuRef}>
                         <img src={three_dots} id='threedot-icon' onClick={() => setOpen(!open)} />
                         {option === '' ?     
@@ -53,8 +55,10 @@ function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option, graph, s
                                 <div className='badge text-wrap text-dark position-absolute bottom-0 start-50 translate-middle-x' id='divEmptyStateTwo'>
                                     <p className='fs-5 fw-normal' id='texxt'>Aucune donnée n’est disponible.</p>
                                 </div> 
-                            </> : <div className='me-5' id='oneFigEdit'> 
-                                    <EChartsReact option={option} notMerge={true} /> 
+                            </> : <div className={selectedGraph === 6 ? 'me-5 mt-4' : 'me-5'} id='oneFigEdit'> 
+                                { (selectedGraph === 6) ? <Table libelleFigure={option.libelleFigure} table={option.table} data={option.data} />
+                                : (selectedGraph === 7) ? <Indicator libelleFigure={option.libelleFigure} indicator={option.indicator} indicatorValue={option.indicatorValue} />
+                                : <EChartsReact option={option} notMerge={true} style={{height: '360px'}} /> }
                                 </div>
                             }
                         {open && (<DropdownMenu></DropdownMenu>)} 

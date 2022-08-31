@@ -14,7 +14,7 @@ import TwoFigures from './TwoFigures'
 import Verification from './Verification'
 import Axios from 'axios'
 
-function Dashboardd(route) {       
+function Delais(route) {       
     const [selectedGraph, setSelectedGraph] = useState(-1)
     const [selectedZone, setSelectedZone] = useState(0)
     const [graph, setGraph] = useState(sampleGraph)
@@ -243,4 +243,4 @@ function Dashboardd(route) {
 }
 
 
-export default Dashboardd
+export default Delais

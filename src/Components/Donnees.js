@@ -1,10 +1,12 @@
-import { useState, useRef } from 'react'
+import React from 'react'
+import { useState } from 'react'
 import input from '../data/input.json'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Form from 'react-bootstrap/Form'
 import EChartsReact from 'echarts-for-react'
+import Table from './Table'
 import data from '../data/data_generalites.json'
-import React from 'react';
+import Indicator from './Indicator'
 
 function Donnees({ selectedGraph, changeOption }) {
   let inputField = [], colorField = [], group = [], secondGroup = []
@@ -14,9 +16,10 @@ function Donnees({ selectedGraph, changeOption }) {
 
   const [countInput, setCountInput] = useState({})
   const [countColor, setCountColor] = useState({})
-  const [countPath, setCountPath] = useState({})
   const [countTreeMap1, setCountTreeMap1] = useState({})
-  const [countTreeMap2, setCountTreeMap2] = useState({})
+  const [table, setTable] = useState([])
+  const [indicator, setIndicator] = useState('')
+  const [indicatorValue, setIndicatorValue] = useState(0)
 
   const [libelleFigure, setLibelleFigure] = useState('')
   const [libelleX, setLibelleX] = useState('')
@@ -85,9 +88,9 @@ function Donnees({ selectedGraph, changeOption }) {
     const optionTest = [
       {
         title: { text: libelleFigure, left: 'center' },
-        grid: { top: 40, right: 20, bottom: 24, left: 140, height: '70%'},
-        xAxis: {x:firstSelect, name: libelleX, nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisTick: { show: false }, axisLine: { show: true, lineStyle: { color: "rgba(137, 137, 137, 1)" }}  },
-        yAxis: {y:secondSelect, name: libelleY, data: Object.keys(countInput), nameLocation: 'center', nameTextStyle: { padding: 80, fontSize: 18 } },
+        grid: { top: 40, right: 20, bottom: 24, left: 100, height: '70%'},
+        yAxis: { x:firstSelect, name: libelleY, nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisTick: { show: false }, axisLine: { show: true, lineStyle: { color: "rgba(137, 137, 137, 1)" }}  },
+        xAxis: { y:secondSelect, name: libelleX, data: Object.keys(countInput), nameLocation: 'center', nameTextStyle: { padding: 80, fontSize: 18 }, axisLabel: { rotate: 45 } },
         series: [ { symbolSize: 20, data: Object.values(countInput), type: 'scatter' } ],
         tooltip: { trigger: 'axis' }
       },
@@ -161,10 +164,11 @@ function Donnees({ selectedGraph, changeOption }) {
 
     const optionTest = [
       {
-        grid: { top: 40, right: 15, bottom: 24, left: 120 },
-        xAxis: { data: Object.keys(countColor), axisLabel: { show: true, padding: 0, width: 100 } }, 
-        yAxis: { },
-        series: [ { symbolSize: 20, data: Object.values(countColor), type: 'scatter' } ],
+        title: { text: libelleFigure, left: 'center' },
+        grid: { top: 40, right: 20, bottom: 24, left: 100, height: '70%'},
+        yAxis: { name: libelleY, nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisTick: { show: false }, axisLine: { show: true, lineStyle: { color: "rgba(137, 137, 137, 1)" }}  },
+        xAxis: { name: libelleX, data: Object.keys(countInput), nameLocation: 'center', nameTextStyle: { padding: 80, fontSize: 18 }, axisLabel: { rotate: 45 } },
+        series: [ { symbolSize: 20, data: Object.values(countInput), type: 'scatter' } ],
         tooltip: { trigger: 'axis' }
       },
       {
@@ -180,10 +184,10 @@ function Donnees({ selectedGraph, changeOption }) {
       },
       {
         title: { text: libelleFigure, left: 'center' },
-        grid: { top: 40, right: 25, bottom: 24, left: 100 },
-        xAxis: { name:libelleX,type: 'value' },
-        yAxis: { name:libelleY,type: 'category', data: Object.keys(countColor) }, 
-        series: [ { data: Object.values(countColor), type: 'bar', smooth: true } ],
+        grid: { top: 70, right: 25, bottom: 24, left: (libelleY === '') ? 70 : 200, height: '70%' },
+        yAxis: { name: libelleY, type: 'value', nameLocation: 'center', axisLabel: { rotate: 45 }, nameTextStyle: { padding: 90, fontSize: 18 }, type: 'category', data: Object.keys(countColor) }, 
+        xAxis: { name: libelleX, nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisTick: { show: false }, axisLine: { show: true, lineStyle: { color: "rgba(137, 137, 137, 1)" }}, type: 'value' },
+        series: [ { name: secondSelect, data: Object.values(countInput), type: 'bar', stack: 'one', smooth: true }, { name: thirdSelect, data: Object.values(countColor), type: 'bar', stack: 'one', smooth: true } ],
         tooltip: { trigger: 'axis' },
         select:{x:firstSelect, y:secondSelect} 
       },
@@ -196,7 +200,7 @@ function Donnees({ selectedGraph, changeOption }) {
             name: 'Nombre de demandes',
             type: 'pie',
             radius: '50%',
-            data: Object.keys(countColor).map(x => ({ value: countColor[x], name: x }) ),
+            data: Object.keys(countInput).map(x => ({ value: countInput[x], name: x }) ),
             emphasis: { itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' } }
           } ]
       },
@@ -238,28 +242,33 @@ function Donnees({ selectedGraph, changeOption }) {
 
     const optionTest = [
       {
-        grid: { top: 40, right: 8, bottom: 24, left: 40},
-        xAxis: { }, yAxis: { data: Object.keys(countInput) },
+        title: { text: libelleFigure, left: 'center' },
+        grid: { top: 40, right: 20, bottom: 24, left: 100, height: '70%'},
+        yAxis: { name: libelleY, nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisTick: { show: false }, axisLine: { show: true, lineStyle: { color: "rgba(137, 137, 137, 1)" }}  },
+        xAxis: { name: libelleX, data: Object.keys(countInput), nameLocation: 'center', nameTextStyle: { padding: 80, fontSize: 18 }, axisLabel: { rotate: 45 } },
         series: [ { symbolSize: 20, data: Object.values(countInput), type: 'scatter' } ],
         tooltip: { trigger: 'axis' }
       },
       {
         title: { text: libelleFigure, left: 'center' },
-        grid: { top: 80, right: 15, bottom: 24, left: 70, height: '70%' },
+        grid: { top: 40, right: 8, bottom: 24, left: 70, height: '70%' },
         xAxis: { name: libelleX, type: 'category', data: Object.keys(countInput), nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisTick: { show: false } },
         yAxis: { name: libelleY, type: 'value', nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisLine: { show: true, lineStyle: { color: "rgba(137, 137, 137, 1)" }} },
         series: [ { data: Object.values(countInput), type: 'bar', smooth: true } ],
-        tooltip: { trigger: 'axis' }
+        tooltip: { trigger: 'axis' },
       },
       {
-        grid: { top: 40, right: 25, bottom: 24, left: 100 },
-        yAxis: { type: 'category', data: Object.keys(countInput) }, xAxis: { type: 'value' },
+        title: { text: libelleFigure, left: 'center' },
+        grid: { top: 70, right: 25, bottom: 24, left: (libelleY === '') ? 70 : 150, height: '70%' },
+        yAxis: { name: libelleY, type: 'value', nameLocation: 'center', axisLabel: { rotate: 45 }, nameTextStyle: { padding: 90, fontSize: 18 }, type: 'category', data: Object.keys(countInput) }, 
+        xAxis: { name: libelleX, nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisTick: { show: false }, axisLine: { show: true, lineStyle: { color: "rgba(137, 137, 137, 1)" }}, type: 'value' },
         series: [ { data: Object.values(countInput), type: 'bar', smooth: true } ],
         tooltip: { trigger: 'axis' }
       },
       {
+        title: { text: libelleFigure, left: 'center' },
         tooltip: { trigger: 'item' },
-        legend: { orient: 'vertical', left: 'left' },
+        legend: { orient: 'vertical', left: 'left', top: 50 },
         series: [ {
             name: 'Nombre de demandes',
             type: 'pie',
@@ -318,36 +327,38 @@ function Donnees({ selectedGraph, changeOption }) {
 
     const optionTest = [
       {
-        grid: { top: 40, right: 15, bottom: 24, left: 120 },
-        xAxis: { data: Object.keys(countColor), axisLabel: { show: true, padding: 0, width: 100 } }, 
-        yAxis: { },
-        series: [ { symbolSize: 20, data: Object.values(countColor), type: 'scatter' } ],
+        title: { text: libelleFigure, left: 'center' },
+        grid: { top: 40, right: 20, bottom: 24, left: 100, height: '70%'},
+        yAxis: { name: libelleY, nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisTick: { show: false }, axisLine: { show: true, lineStyle: { color: "rgba(137, 137, 137, 1)" }}  },
+        xAxis: { name: libelleX, data: Object.keys(countInput), nameLocation: 'center', nameTextStyle: { padding: 80, fontSize: 18 }, axisLabel: { rotate: 45 } },
+        series: [ { symbolSize: 20, data: Object.values(countInput), type: 'scatter' } ],
         tooltip: { trigger: 'axis' }
       },
       {
         title: { text: libelleFigure, left: 'center' },
-        grid: { top: 80, right: 15, bottom: 24, left: 70, height: '70%' },
-        xAxis: { name: libelleX, type: 'category', data: Object.keys(countColor), nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisTick: { show: false } }, 
-        yAxis: { name: libelleY, type: 'value', nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisLine: { show: true, lineStyle: { color: "rgba(137, 137, 137, 1)" }} }, 
-        series: [ { name: firstSelect, data: Object.values(countInput), type: 'bar', stack: 'one', smooth: true }, { name: thirdSelect, data: Object.values(countColor), type: 'bar', stack: 'one', smooth: true } ],
-        legend: { data: [ firstSelect, param.target.value ], left: '10%' },
+        grid: { top: 40, right: 8, bottom: 24, left: 70, height: '70%' },
+        xAxis: { name: libelleX, type: 'category', data: Object.keys(countInput), nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisTick: { show: false } },
+        yAxis: { name: libelleY, type: 'value', nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisLine: { show: true, lineStyle: { color: "rgba(137, 137, 137, 1)" }} },
+        series: [ { data: Object.values(countInput), type: 'bar', smooth: true } ],
+        tooltip: { trigger: 'axis' },
+      },
+      {
+        title: { text: libelleFigure, left: 'center' },
+        grid: { top: 70, right: 25, bottom: 24, left: (libelleY === '') ? 70 : 150, height: '70%' },
+        yAxis: { name: libelleY, type: 'value', nameLocation: 'center', axisLabel: { rotate: 45 }, nameTextStyle: { padding: 90, fontSize: 18 }, type: 'category', data: Object.keys(countInput) }, 
+        xAxis: { name: libelleX, nameLocation: 'center', nameTextStyle: { padding: 30, fontSize: 18 }, axisTick: { show: false }, axisLine: { show: true, lineStyle: { color: "rgba(137, 137, 137, 1)" }}, type: 'value' },
+        series: [ { data: Object.values(countInput), type: 'bar', smooth: true } ],
         tooltip: { trigger: 'axis' }
       },
       {
-        grid: { top: 40, right: 25, bottom: 24, left: 100 },
-        xAxis: { type: 'value' },
-        yAxis: { type: 'category', data: Object.keys(countColor) }, 
-        series: [ { data: Object.values(countColor), type: 'bar', smooth: true } ],
-        tooltip: { trigger: 'axis' }
-      },
-      {
+        title: { text: libelleFigure, left: 'center' },
         tooltip: { trigger: 'item' },
-        legend: { orient: 'vertical', left: 'left' },
+        legend: { orient: 'vertical', left: 'left', top: 50 },
         series: [ {
             name: 'Nombre de demandes',
             type: 'pie',
             radius: '50%',
-            data: Object.keys(countColor).map(x => ({ value: countColor[x], name: x }) ),
+            data: Object.keys(countInput).map(x => ({ value: countInput[x], name: x }) ),
             emphasis: { itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' } }
           } ]
       },
@@ -368,9 +379,18 @@ function Donnees({ selectedGraph, changeOption }) {
     setNewOption(optionTest)
   }
 
+  const AddTable = (param) => {
+    if(!table.includes(param.target.value)) setTable(oldTable => [...oldTable, param.target.value])
+  }
+
+  const AddIndicator = (param) => {
+    setIndicator(param.target.value)
+    setIndicatorValue(Math.floor(Math.random() * 500) + 100)
+  }
+
   return (
     <div className='d-flex'>
-      <h4 className='me-3'>Données</h4>
+      <h4 className='me-1'>Données</h4>
       <div className='container'>
         <div className='row justify-content-center'>
           <div className='col-sm-6'>
@@ -391,12 +411,17 @@ function Donnees({ selectedGraph, changeOption }) {
             {selectedGraph > -1 && Object.keys(dataSelection['generalites'][selectedGraph]).filter(x => x !== 'name').map((param, index) =>
               (typeof dataSelection['generalites'][selectedGraph][param] === 'object') && (!Array.isArray(dataSelection['generalites'][selectedGraph][param][index]))
                 ? <FloatingLabel key={param} controlId='floatingInput' label={(param === 'x' || param === 'y') ? 'Axis '+param : param} className='mb-3'>             
-                    <Form.Select  id={param} onChange={param === 'x' || (param === 'Path 1' && selectedGraph !== 5 ) ? (e => AddGraph(e)) 
-                    : param === 'Couleur' ? (e => AddColor(e)) 
-                    : param === 'Path 2' && selectedGraph === 4 ? (e => AddSunburst(e)) 
+                    <Form.Select id={param} onChange={param === 'x' || (param === 'Path 1' && selectedGraph !== 5 ) ? e => AddGraph(e)
+                    : param === 'Couleur' ? e => AddColor(e) 
+                    : param === 'Path 2' && selectedGraph === 4 ? e => AddSunburst(e)
                     : param === 'Path 3' ? (e => AddTreeMap(e))
-                    : param === 'y' || param === 'Nom' ? (e => AddGraph(e))
-                    : null } onClick={() => changeOption(newOption[selectedGraph])} className='w-100'>
+                    : param === 'y' || param === 'Nom' ? e => AddGraph(e)
+                    : param === 'Colonnes' && selectedGraph === 6 ? e => AddTable(e)
+                    : param === 'Indicateur' ? e => AddIndicator(e)
+                    : null } onClick={() => (selectedGraph < 6) ? changeOption(newOption[selectedGraph]) 
+                    : (selectedGraph === 6) ? changeOption({'libelleFigure': libelleFigure, 'table': table, 'data': data})
+                    : (selectedGraph === 7) ? changeOption({'libelleFigure': libelleFigure, 'indicator': indicator, 'indicatorValue': indicatorValue})
+                    : null} className='w-100'>
                       {dataSelection['generalites'][selectedGraph][param].map(x => <option key={x} value={x}>{x}</option>)}
                     </Form.Select> 
                   </FloatingLabel> : null)
@@ -404,12 +429,21 @@ function Donnees({ selectedGraph, changeOption }) {
           </div>
         </div>
 
-      {selectedGraph !== -1 && newOption.map((x, index) => <div className='mt-2'>          
-        {index === selectedGraph && 
+      {(selectedGraph !== -1) && newOption.map((x, index) => <div className='mt-2'>          
+        { (index === selectedGraph) &&
           <div>
             <EChartsReact option={newOption[selectedGraph]} style={{ height: '500px' }} />
           </div>}
-        </div>)} 
+        </div>)
+      } 
+
+      {selectedGraph === 6 &&
+        <Table libelleFigure={libelleFigure} table={table} data={data} />
+      }
+
+      { (selectedGraph === 7 && indicator !== '') &&
+        <Indicator libelleFigure={libelleFigure} indicator={indicator} indicatorValue={indicatorValue} />
+      }
       </div>
     </div>
   )
@@ -417,25 +451,25 @@ function Donnees({ selectedGraph, changeOption }) {
 
 const tempData = {
   "generalites": [
-    {name: 'scatter', x: ['Date depôt', 'Date traitement'], y: input.onglets[0].mesures, 'Mode': ['Lines', 'Markers', 'Lines + Markers'], 'Palette couleur': '', 'Libelle figure': '', 'Libelle x': '', 'Libelle y': ''},
+    {name: 'scatter', x: ['Date depôt', 'Date traitement'], y: input.onglets[0].mesures, 'Mode': ['Lines', 'Markers', 'Lines + Markers'], 'Libelle x': '', 'Libelle y': '','Libelle figure': '', 'Palette couleur': '' },
     {name: 'bar', x: input.onglets[0].dimesions, y: input.onglets[0].mesures, 'Couleur': input.onglets[0].dimesions, 'Libelle x': '', 'Libelle y': '', 'Libelle couleur': '', 'Libelle figure': '', 'Palette couleur': []},
-    {name: 'bar_horizontal', x: input.onglets[0].mesures, y: input.onglets[0].dimesions, 'Couleur': '', 'Libelle figure': '', 'Libelle x': '', 'Libelle y': '', 'Libelle couleur': '', 'Palette couleur': []},
-    {name: 'pie', 'Valeur': input.onglets[0].mesures, 'Nom': input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), 'Libelle figure': '', 'Libelle valeur': '', 'Libelle nom': '', 'Palette couleur': []},
-    {name: 'sunburst', 'Path 1': Array.from(input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Path 2': Array.from(input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Valeur': input.onglets[0].mesures, 'Libelle figure': '', 'Libelle valeur': '', 'Titre path': '', 'Palette couleur': []},
+    {name: 'bar_horizontal', x: input.onglets[0].mesures, y: input.onglets[0].dimesions, 'Couleur': input.onglets[0].dimesions, 'Libelle x': '', 'Libelle y': '', 'Libelle couleur': '', 'Libelle figure': '', 'Palette couleur': []},
+    {name: 'pie', 'Valeur': input.onglets[0].mesures, 'Nom': input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), 'Libelle valeur': '', 'Libelle nom': '', 'Libelle figure': '', 'Palette couleur': []},
+    {name: 'sunburst', 'Path 1': Array.from(input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Path 2': Array.from(input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Valeur': input.onglets[0].mesures, 'Titre path': '', 'Libelle valeur': '', 'Libelle figure': '', 'Palette couleur': []},
     {name: 'treemap', 'Path 1': Array.from(input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Path 2': Array.from(input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Path 3': Array.from(input.onglets[0].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Valeur': input.onglets[0].mesures, 'Libelle figure': '', 'Palette couleur': []},
     {name: 'table', 'Colonnes': input.onglets[0].dimesions, 'Libelle figure': ''},
     {name: 'indicator', 'Indicateur': input.onglets[0].indicateurs, 'Libelle figure': ''}
   ],
   "delais": [
-    {name: 'scatter', x: ['date dépot', 'date traitement'], y: input.onglets[1].mesures, 'Palette couleur': '', 'Couleur': '', 'Libelle figure': '', 'Libelle x': '', 'Libelle y': ''},
-    {name: 'bar', x: input.onglets[1].dimesions, y: input.onglets[1].mesures, 'Couleur': '', 'Libelle figure': '', 'Libelle x': '', 'Libelle y': '', 'Libelle couleur': '', 'Palette couleur': []},
-    {name: 'bar_horizontal', x: input.onglets[1].mesures, y: input.onglets[1].dimesions, 'Couleur': '', 'Libelle figure': '', 'Libelle x': '', 'Libelle y': '', 'Libelle couleur': '', 'Palette couleur': []},
-    {name: 'pie', 'Valeur': input.onglets[1].mesures, 'Nom': input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), 'Libelle figure': '', 'Libelle valeur': '', 'Libelle nom': '', 'Palette coleur': []},
-    {name: 'sunburst', 'Path 1': Array.from(input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Path 2': Array.from(input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Valeur': input.onglets[1].mesures, 'Libelle figure': '', 'Libelle valeur': '', 'Titre path': '', 'Palette couleur': []},
+    {name: 'scatter', x: ['Date depôt', 'Date traitement'], y: input.onglets[1].mesures, 'Mode': ['Lines', 'Markers', 'Lines + Markers'], 'Libelle x': '', 'Libelle y': '','Libelle figure': '', 'Palette couleur': '' },
+    {name: 'bar', x: input.onglets[1].dimesions, y: input.onglets[1].mesures, 'Couleur': input.onglets[1].dimesions, 'Libelle x': '', 'Libelle y': '', 'Libelle couleur': '', 'Libelle figure': '', 'Palette couleur': []},
+    {name: 'bar_horizontal', x: input.onglets[1].mesures, y: input.onglets[1].dimesions, 'Couleur': input.onglets[1].dimesions, 'Libelle x': '', 'Libelle y': '', 'Libelle couleur': '', 'Libelle figure': '', 'Palette couleur': []},
+    {name: 'pie', 'Valeur': input.onglets[1].mesures, 'Nom': input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement'), 'Libelle valeur': '', 'Libelle nom': '', 'Libelle figure': '', 'Palette couleur': []},
+    {name: 'sunburst', 'Path 1': Array.from(input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Path 2': Array.from(input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Valeur': input.onglets[1].mesures, 'Titre path': '', 'Libelle valeur': '', 'Libelle figure': '', 'Palette couleur': []},
     {name: 'treemap', 'Path 1': Array.from(input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Path 2': Array.from(input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Path 3': Array.from(input.onglets[1].dimesions.filter(x => x !== 'Date depôt' && x !== 'Date traitement')), 'Valeur': input.onglets[1].mesures, 'Libelle figure': '', 'Palette couleur': []},
     {name: 'table', 'Colonnes': input.onglets[1].dimesions, 'Libelle figure': ''},
     {name: 'indicator', 'Indicateur': input.onglets[1].indicateurs, 'Libelle figure': ''}
-  ]
+  ],
 }
 
 export default Donnees

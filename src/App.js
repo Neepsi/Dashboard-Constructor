@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react';
-import Dashboard from "./Components/Dashboard";
-import Dashboardd from "./Components/Dashboardd";
+import Generalites from "./Components/Generalites";
+import Delais from "./Components/Delais";
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {  
@@ -9,9 +9,9 @@ function App() {
   <Router>
     <div className="App">
        <Routes>
-          <Route path='/' element={<Dashboard route='generalites' />}></Route>
-          <Route path='/generalites' element={<Dashboard route='generalites' />}></Route>
-          <Route path='/delais' element={<Dashboardd route='delais' />}></Route>  
+          <Route path='/' element={<Generalites route='generalites' />}></Route>
+          <Route path='/generalites' element={<Generalites route='generalites' />}></Route>
+          <Route path='/delais' element={<Delais route='delais' />}></Route>  
        </Routes>                          
     </div>
   </Router>

@@ -13,23 +13,7 @@
     "Canal de dépôt"
    ]
   },
-  {
-   "nb_figure": "fig_2",
-   "dataframe": "df_9",
-   "type_figure": "px.treemap",
-   "path": [
-    "Confidentialité",
-    "Canal de dépôt",
-    "Urgence"
-   ],
-   "values": "Nombre de demandes",
-   "color": "Urgence",
-   "dimensions": [
-    "Confidentialité",
-    "Canal de dépôt",
-    "Urgence"
-   ],
-   "titre_figure": ""
-  }
+  "",
+  ""
  ]
 }

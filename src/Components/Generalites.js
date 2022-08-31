@@ -15,7 +15,7 @@ import Verification from './Verification'
 import Axios from 'axios'
 import { render } from '@testing-library/react'
 
-function Dashboard(route) {       
+function Generalites(route) {       
     const [selectedGraph, setSelectedGraph] = useState(-1)
     const [selectedZone, setSelectedZone] = useState(0)
     const [graph, setGraph] = useState(sampleGraph)
@@ -82,6 +82,7 @@ function Dashboard(route) {
         inputList.map((x, index) => (x.id === getid) && ((pos = index)))
 
         let figOne = inputList[pos].option1, figTwo = inputList[pos].option2;
+
         if(menuId === 'one') {
             if(inputList[pos].option2 === '') {
                 inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: '', type: selectedGraph})
@@ -112,19 +113,19 @@ function Dashboard(route) {
         let newFig = (selectedZone === 1) ? {id: listId+1, oneBlockVisi: true, twoBlockVisi: false, option: changeOption, type: selectedGraph} : {id: listId+1, oneBlockVisi: false, twoBlockVisi: true, option1: changeOption, option2: '',type: selectedGraph}
         let newArr = inputList.concat(newFig)
         setInputList(newArr)
-        setHiddenBlocks('none')
-        handleClose();        
-        Axios.post('http://localhost:3001/addBloc', { data: newArr,route: route.route}).then(() => console.log('Success'))        
-        console.log(newArr)
-        
+        setHiddenBlocks('none')        
+        Axios.post('http://localhost:3001/addBloc', { data: newArr,route: route.route}).then(() => console.log('Success'))                
+        setSelectedZone(0)
+        handleClose()
     }
 
     const editOnefig = () => {   
         let pos = ''
 
-        inputList.map((x, index) => (x.id === getid) &&  ((pos = index)))
+        inputList.map((x, index) => (x.id === getid) && ((pos = index)))
 
-        if(inputList[pos].oneBlockVisi === true) {            
+        if(inputList[pos].oneBlockVisi === true) {       
+            inputList[pos].type = selectedGraph  
             inputList[pos].option = changeOption
             inputList[pos].type = selectedGraph
             setInputList(inputList)
@@ -134,6 +135,7 @@ function Dashboard(route) {
         }
         else {
             if(menuId === 'one') {
+                inputList[pos].type = selectedGraph 
                 inputList[pos].option1 = changeOption
                 inputList[pos].type = selectedGraph
                 setInputList(inputList)
@@ -141,6 +143,7 @@ function Dashboard(route) {
                 Axios.post('http://localhost:3001/update_fig', { data: inputList,route: route.route }).then(() => console.log('Success'))
             }
             else {
+                inputList[pos].type = selectedGraph 
                 inputList[pos].option2 = changeOption
                 inputList[pos].type = selectedGraph
                 setInputList(inputList)
@@ -156,24 +159,24 @@ function Dashboard(route) {
 
         <div>
             <Header />      
-            <button className='btn btn-primary mx-2' onClick={handleShow}>Ajouter bloc</button>   
+            <button className='btn btn-primary mx-3' onClick={handleShow}>Ajouter bloc</button>   
 
             {(inputList.length === 0)  ? <Blocs oneBlockVisi={hiddenBlocks} twoBlockVisi={hiddenBlocks} /> :
             <DragDropContext onDragEnd={handleOnDragEnd}>
                 <Droppable droppableId='charts'>
                     {(provided) => (
                         <ul className='charts list-unstyled' {...provided.droppableProps} ref={provided.innerRef}>                                                            
-                            {inputList.map((list, index) =>
-                                <Draggable key={list.id} draggableId={list.id.toString()} index={index}>
-                                    {(provided,snapshot) => (                                            
+                            {inputList.map((list, index) =>                              
+                                <Draggable key={list.id} draggableId={list.id.toString()} index={index}>                                                                                 
+                                    {(provided, snapshot) => (                                            
                                         <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} id="figs">                                               
                                             {(list.oneBlockVisi) ? 
-                                            <OneFigure option={list.option} selectedGraph={list.type} graph={graph} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={event=>handleShowEdit(event,list.id)} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'}  /> 
-                                            : <TwoFigures option1={list.option1} option2={list.option2} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} openVerif={event=>toggleModalTwo(event,list.id)} editpopup={event=>handleShowEdit(event,list.id)} idFigure={list.id} idfigone={list.id}  idfigtwo={list.id} />                                            
-                                            }
-                                        </li>
-                                    )}                                                                            
-                                </Draggable>                                
+                                            <OneFigure option={list.option} selectedGraph={list.type} graph={graph} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={event=>handleShowEdit(event,list.id)} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)} /> 
+                                            : <TwoFigures option1={list.option1} option2={list.option2} selectedGraph={list.type} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} openVerif={event=>toggleModalTwo(event,list.id)} editpopup={event=>handleShowEdit(event,list.id)} idFigure={list.id} idfigone={list.id}  idfigtwo={list.id} />                                                
+                                            }                                                
+                                        </li>                                            
+                                    )}                                        
+                                </Draggable>
                             )}
                             {modal && <Verification toggleveri={() => toggleModal()} deleteFig={() => handleDelete()}/>}
                             {modalTwo && <Verification toggleveri={() => toggleModalTwo()} deleteFig={() => deleteOneFig()} />}
@@ -241,4 +244,4 @@ function Dashboard(route) {
 }
 
 
-export default Dashboard
+export default Generalites

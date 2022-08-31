@@ -1,0 +1,10 @@
+[
+  {"name": "Scatter", "src": "scatter.png"}, 
+  {"name": "Bar", "src": "bar-chart.png"},
+  {"name": "Horizontal bar", "src": "horizontal-bar-chart.png"},
+  {"name": "Pie", "src": "pie-chart.png"},
+  {"name": "Sunburst", "src": "sunburst.png"},
+  {"name": "Treemap", "src": "treemap-chart.png"},
+  {"name": "Table", "src": "table.png"},
+  {"name": "Indicator", "src": "indicator.png"}
+]

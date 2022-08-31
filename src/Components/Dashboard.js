@@ -64,53 +64,60 @@ function Dashboard() {
         inputList.map((x, index) => (x.id === getid) && ((pos = index)))
 
         let figOne = inputList[pos].option1, figTwo = inputList[pos].option2;
+
         if(menuId === 'one') {
             if(inputList[pos].option2 === '') {
-                inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: ''})
+                inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: '', type: selectedGraph})
                 setInputList(inputList)
                 setModalTwo(false)
+                console.log(inputList)
             }
             else {
-                inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: figTwo})
+                inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: figTwo, type: selectedGraph})
                 setInputList(inputList)
                 setModalTwo(false)
-            }
-            
+                console.log(inputList)
+            }         
         }
         else {
-            inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: figOne})
+            inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: figOne, type: selectedGraph})
             setInputList(inputList)
             setModalTwo(false)
+            console.log(inputList)
         }
     }
 
     const deleteOneFig = () => deleteFigOne() 
 
     const addBloc = () => {
-        let newFig = (selectedZone === 1) ? {id: listId+1, oneBlockVisi: true, twoBlockVisi: false, option: changeOption, type: selectedGraph} : {id: listId+1, oneBlockVisi: false, twoBlockVisi: true, option1: changeOption, option2: ''}
+        let newFig = (selectedZone === 1) ? {id: listId+1, oneBlockVisi: true, twoBlockVisi: false, option: changeOption, type: selectedGraph} : {id: listId+1, oneBlockVisi: false, twoBlockVisi: true, option1: changeOption, option2: '', type: selectedGraph}
         let newArr = inputList.concat(newFig)
         setInputList(newArr)
         setHiddenBlocks('none')
+        setSelectedZone(0)
         handleClose()
     }
 
     const editOnefig = () => {   
         let pos = ''
 
-        inputList.map((x, index) => (x.id === getid) &&  ((pos = index)))
+        inputList.map((x, index) => (x.id === getid) && ((pos = index)))
 
-        if(inputList[pos].oneBlockVisi === true) {            
+        if(inputList[pos].oneBlockVisi === true) {       
+            inputList[pos].type = selectedGraph  
             inputList[pos].option = changeOption
             setInputList(inputList)
             handleCloseEdit()
         }
         else {
             if(menuId === 'one') {
+                inputList[pos].type = selectedGraph 
                 inputList[pos].option1 = changeOption
                 setInputList(inputList)
                 handleCloseEdit()
             }
             else {
+                inputList[pos].type = selectedGraph 
                 inputList[pos].option2 = changeOption
                 setInputList(inputList)
                 handleCloseEdit()
@@ -123,20 +130,20 @@ function Dashboard() {
     return (            
         <div>
             <Header />      
-            <button className='btn btn-primary mx-2' onClick={handleShow}>Ajouter bloc</button>   
+            <button className='btn btn-primary mx-3' onClick={handleShow}>Ajouter bloc</button>   
 
             <Blocs oneBlockVisi={hiddenBlocks} twoBlockVisi={hiddenBlocks} />  
             <DragDropContext onDragEnd={handleOnDragEnd}>
                 <Droppable droppableId='charts'>
                     {(provided) => (
                         <ul className='charts list-unstyled' {...provided.droppableProps} ref={provided.innerRef}>                                                            
-                            {inputList.map((list, index) =>                                
-                                <Draggable key={list.id} draggableId={list.id.toString()} index={index}>                                                                                
-                                    {(provided,snapshot) => (                                            
+                            {inputList.map((list, index) =>                              
+                                <Draggable key={list.id} draggableId={list.id.toString()} index={index}>                                                                                 
+                                    {(provided, snapshot) => (                                            
                                         <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} id="figs">                                               
                                             {(list.oneBlockVisi) ? 
                                             <OneFigure option={list.option} selectedGraph={list.type} graph={graph} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={event=>handleShowEdit(event,list.id)} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} reference={() => handleDelete(list.id)} /> 
-                                            : <TwoFigures option1={list.option1} option2={list.option2} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} openVerif={event=>toggleModalTwo(event,list.id)} editpopup={event=>handleShowEdit(event,list.id)} idFigure={list.id} idfigone={list.id}  idfigtwo={list.id} />                                                
+                                            : <TwoFigures option1={list.option1} option2={list.option2} selectedGraph={list.type} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} openVerif={event=>toggleModalTwo(event,list.id)} editpopup={event=>handleShowEdit(event,list.id)} idFigure={list.id} idfigone={list.id}  idfigtwo={list.id} />                                                
                                             }                                                
                                         </li>                                            
                                     )}                                        

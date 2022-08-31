@@ -1,0 +1,68 @@
+{
+ "figures_generalites": [
+  {
+   "nb_figure": "fig_1",
+   "dataframe": "df_2",
+   "type_figure": "px.pie",
+   "values": "Nombre de demandes",
+   "names": "Canal de dépôt",
+   "libelle_values": "",
+   "libelle_names": "",
+   "titre_figure": "",
+   "dimensions": [
+    "Canal de dépôt"
+   ]
+  },
+  {
+   "nb_figure": "fig_2",
+   "dataframe": "df_9",
+   "type_figure": "px.treemap",
+   "path": [
+    "Confidentialité",
+    "Canal de dépôt",
+    "Urgence"
+   ],
+   "values": "Nombre de demandes",
+   "color": "Urgence",
+   "dimensions": [
+    "Confidentialité",
+    "Canal de dépôt",
+    "Urgence"
+   ],
+   "titre_figure": ""
+  }
+ ],
+ "figures_delais": [
+  {
+   "nb_figure": "fig_1",
+   "dataframe": "df_9",
+   "type_figure": "px.treemap",
+   "path": [
+    "Confidentialité",
+    "Canal de dépôt",
+    "Thème"
+   ],
+   "values": "Nombre de demandes",
+   "color": "Thème",
+   "dimensions": [
+    "Confidentialité",
+    "Canal de dépôt",
+    "Thème"
+   ],
+   "titre_figure": ""
+  },
+  {
+   "nb_figure": "fig_2",
+   "dataframe": "df_2",
+   "type_figure": "px.pie",
+   "values": "Nombre de demandes",
+   "names": "Canal de dépôt",
+   "libelle_values": "",
+   "libelle_names": "",
+   "titre_figure": "",
+   "dimensions": [
+    "Canal de dépôt"
+   ]
+  }
+ ]
+}

@@ -27,11 +27,11 @@ function Header() {
                     <div className='collapse navbar-collapse' id='navbarSupportedContent'>
                         <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
                             <li className='nav-item'>
-                                <a className='nav-link active fs-7 fw-bold ms-3' aria-current='page' href='#'>Généralités</a>
+                                <a className='nav-link active fs-7 fw-bold ms-3' aria-current='page' href='generalites'>Généralités</a>
                             </li>
 
                             <li className='nav-item dropdown'>
-                                <a className='nav-link active fs-7 fw-bold ms-3' aria-current='page' href='#'>Délais</a>
+                                <a className='nav-link active fs-7 fw-bold ms-3' aria-current='page' href='delais'>Délais</a>
                             </li>       
                         </ul>
                     </div>

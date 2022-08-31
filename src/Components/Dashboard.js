@@ -15,7 +15,7 @@ import Verification from './Verification'
 import Axios from 'axios'
 import { render } from '@testing-library/react'
 
-function Dashboard() {   
+function Dashboard(route) {       
     const [selectedGraph, setSelectedGraph] = useState(-1)
     const [selectedZone, setSelectedZone] = useState(0)
     const [graph, setGraph] = useState(sampleGraph)
@@ -40,11 +40,10 @@ function Dashboard() {
     const [modal, setModal] = useState(false)
     const [modalTwo, setModalTwo] = useState(false)
     const fetchData = () =>
-    {
-        Axios.get("http://localhost:3001/figures").then((response)=>{
-            (response['data'].length === 0) ? setInputList(response['data']) : setInputList(eval(response['data'][0]['graph_data']));                                                           
-            console.log(response['data']);            
-        })
+    {       
+            Axios.get("http://localhost:3001/figuresGen",{route: route}).then((response)=>{
+            (response['data'].length === 0 || response['data'][0]['generalites']=== null) ? setInputList([]) : setInputList(JSON.parse(response['data'][0]['generalites']).figures_generalites)                        
+        })                
     }
     useEffect(() =>
     {             
@@ -62,7 +61,7 @@ function Dashboard() {
         const items = Array.from(inputList), [reorderedItem] = items.splice(result.source.index, 1)
         items.splice(result.destination.index, 0, reorderedItem)
         setInputList(items)
-        Axios.post('http://localhost:3001/update_fig', { data: items }).then(() => console.log('Success'));
+        Axios.post('http://localhost:3001/update_fig', { data: items,route: route.route  }).then(() => console.log('Success'));
         
     }  
     
@@ -72,7 +71,7 @@ function Dashboard() {
         arr.forEach(e => e.id = i++)
         setInputList(arr);
         setModal(false);
-        Axios.post('http://localhost:3001/update_fig', { data: arr }).then(() => console.log('Success'));        
+        Axios.post('http://localhost:3001/update_fig', { data: arr,route: route.route  }).then(() => console.log('Success'));        
         
     }
     
@@ -88,13 +87,13 @@ function Dashboard() {
                 inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: '', type: selectedGraph})
                 setInputList(inputList)
                 setModalTwo(false)
-                Axios.post('http://localhost:3001/update_fig', { data: inputList }).then(() => console.log('Success'))                
+                Axios.post('http://localhost:3001/update_fig', { data: inputList,route: route.route }).then(() => console.log('Success'))                
             }
             else {
                 inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: figTwo, type: selectedGraph})
                 setInputList(inputList)
                 setModalTwo(false)
-                Axios.post('http://localhost:3001/update_fig', { data: inputList }).then(() => console.log('Success'))                
+                Axios.post('http://localhost:3001/update_fig', { data: inputList,route: route.route  }).then(() => console.log('Success'))                
             }
             
         }
@@ -103,11 +102,11 @@ function Dashboard() {
             inputList.splice(pos, 1, {id: getid, oneBlockVisi: true, twoBlockVisi: false, option: figOne, type: selectedGraph})
             setInputList(inputList)
             setModalTwo(false)
-            Axios.post('http://localhost:3001/update_fig', { data: inputList }).then(() => console.log('Success'))            
+            Axios.post('http://localhost:3001/update_fig', { data: inputList,route: route.route  }).then(() => console.log('Success'))            
         }
     }
 
-    const deleteOneFig = () =>{deleteFigOne(); Axios.post('http://localhost:3001/update_fig', { data: inputList }).then(() => console.log('Success'))}
+    const deleteOneFig = () =>{deleteFigOne(); Axios.post('http://localhost:3001/update_fig', { data: inputList,route: route.route  }).then(() => console.log('Success'))}
    
     const addBloc = () => {
         let newFig = (selectedZone === 1) ? {id: listId+1, oneBlockVisi: true, twoBlockVisi: false, option: changeOption, type: selectedGraph} : {id: listId+1, oneBlockVisi: false, twoBlockVisi: true, option1: changeOption, option2: '',type: selectedGraph}
@@ -115,24 +114,8 @@ function Dashboard() {
         setInputList(newArr)
         setHiddenBlocks('none')
         handleClose();        
-        Axios.post('http://localhost:3001/addBloc', { data: newArr}).then(() => console.log('Success'))
+        Axios.post('http://localhost:3001/addBloc', { data: newArr,route: route.route}).then(() => console.log('Success'))        
         console.log(newArr)
-        
-       /* const fig = {
-            nb_figure:"fig_5",
-			dataframe:"df_6",
-			type_figure:"px.bar",
-			x:"Thème/Sous Thème",
-			y:"Nombre de demandes",
-			color:"Etat demande",
-			titre_figure:"Nombre de demandes par thème, sous thème et dépassement",
-			libelle_y:"Nombre de demandes",
-			libelle_x:"Thème et sous thème",
-			libelle_color:"Dépassement",
-			libelle_figure:"Nombre de demandes",
-			dimensions:["Thème/Sous Thème", "Etat demande"],
-                    }*/
-        
         
     }
 
@@ -143,29 +126,34 @@ function Dashboard() {
 
         if(inputList[pos].oneBlockVisi === true) {            
             inputList[pos].option = changeOption
+            inputList[pos].type = selectedGraph
             setInputList(inputList)
             handleCloseEdit()
-            Axios.post('http://localhost:3001/update_fig', { data: inputList }).then(() => console.log('Success'))
+            Axios.post('http://localhost:3001/update_fig', { data: inputList,route: route.route }).then(() => console.log('Success'))
+            console.log(inputList)
         }
         else {
             if(menuId === 'one') {
                 inputList[pos].option1 = changeOption
+                inputList[pos].type = selectedGraph
                 setInputList(inputList)
                 handleCloseEdit()
-                Axios.post('http://localhost:3001/update_fig', { data: inputList }).then(() => console.log('Success'))
+                Axios.post('http://localhost:3001/update_fig', { data: inputList,route: route.route }).then(() => console.log('Success'))
             }
             else {
                 inputList[pos].option2 = changeOption
+                inputList[pos].type = selectedGraph
                 setInputList(inputList)
                 handleCloseEdit()
-                Axios.post('http://localhost:3001/update_fig', { data: inputList }).then(() => console.log('Success'))
+                Axios.post('http://localhost:3001/update_fig', { data: inputList,route: route.route }).then(() => console.log('Success'))
             }            
         }      
     }  
     
     (modal) ? document.body.classList.add('active-modal') : document.body.classList.remove('active-modal')
     
-    return (            
+    return (
+
         <div>
             <Header />      
             <button className='btn btn-primary mx-2' onClick={handleShow}>Ajouter bloc</button>   
@@ -180,7 +168,7 @@ function Dashboard() {
                                     {(provided,snapshot) => (                                            
                                         <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} id="figs">                                               
                                             {(list.oneBlockVisi) ? 
-                                            <OneFigure option={list.option} selectedGraph={list.type} graph={graph} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={event=>handleShowEdit(event,list.id)} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} /> 
+                                            <OneFigure option={list.option} selectedGraph={list.type} graph={graph} idFigureOne={list.id} idFigure={list.id} toggleverif={()=>toggleModal(list.id)} editpopup={event=>handleShowEdit(event,list.id)} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'}  /> 
                                             : <TwoFigures option1={list.option1} option2={list.option2} bgColor={snapshot.isDragging ? 'bg-light' : 'bg-body'} openVerif={event=>toggleModalTwo(event,list.id)} editpopup={event=>handleShowEdit(event,list.id)} idFigure={list.id} idfigone={list.id}  idfigtwo={list.id} />                                            
                                             }
                                         </li>

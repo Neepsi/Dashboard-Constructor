@@ -7,7 +7,7 @@ import empty_state from '../images/empty_state.png'
 import delete_icon from '../images/delete_icon.png'
 import { useState, useRef, useEffect } from 'react'
 
-function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option, graph }) {  
+function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option, graph, selectedGraph}) {  
     const [open, setOpen] = useState(false)
     let menuRef = useRef()
 
@@ -44,7 +44,7 @@ function OneFigure({ bgColor, idFigure, toggleverif, editpopup, option, graph })
     return(    
         <div className='container mb-5' id={'subFig'+idFigure}>
             <div className='row'>   
-                <div className={`col bg-secondary m-2 rounded position-relative shadow-sm p-3 mb-3 ${bgColor}`} style={{height:'340px'}}>
+                <div className={`col bg-secondary m-2 position-relative rounded shadow-sm p-3 mb-3 ${bgColor}`} style={{height:(selectedGraph === 3) ? '300px' : '400px'}}>
                     <div ref={menuRef}>
                         <img src={three_dots} id='threedot-icon' onClick={() => setOpen(!open)} />
                         {option === '' ?     
